@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="VortexC/VortexC.vcxproj" Id="1ef2230c-b7c9-4ee7-8dbf-c9c75e89a4c2" />
+</Solution>
