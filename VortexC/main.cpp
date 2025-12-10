@@ -103,17 +103,32 @@ LONG WINAPI handler(PEXCEPTION_POINTERS info) {
 		std::cout << "Write Fault\n";
 		std::cout << fptr - bufWptr;
 		ULONG_PTR offset = (fptr - bufWptr)&(~(B-1)); 
-		if (offset > 0) {
-			MapUserPhysicalPages((void *)(bufWptr + offset - N * B), NUM_PAGES, NULL);
-			MapUserPhysicalPages((void*)(bufRptr + offset - N * B), NUM_PAGES, offsetToPFN[offset- N* B]);
-			semFull.release();
+		if (offset == 0) {
+			semEmpty.acquire();
+			for (size_t i = 0; i < M + N + L + 1; i++) {
+
+				PULONG_PTR PFNarr = new ULONG_PTR[NUM_PAGES];
+				ULONG_PTR numberOfPages = NUM_PAGES;
+				AllocateUserPhysicalPages(GetCurrentProcess(), &numberOfPages, PFNarr);
+
+				LPVOID ptr = (LPVOID)bufW;
+				MapUserPhysicalPages(ptr, NUM_PAGES, PFNarr);
+				offsetToPFN[i * B] = PFNarr;
+			}
+			return EXCEPTION_CONTINUE_EXECUTION;
+		}else if (offset > 0) {
+				MapUserPhysicalPages((void *)(bufWptr + offset - N * B), NUM_PAGES, NULL);
+			
+				semFull.release();
 		}
+		
 		
 		std::cout << "Waiting For Empty Block\n";
 		semEmpty.acquire();
 		std::cout << "Empty Block Acquired\n";
-		MapUserPhysicalPages((void*)(bufWptr + offset), NUM_PAGES, offsetToPFN[offset - N * B]);
 		offsetToPFN[offset] = offsetToPFN[offset - B];
+		MapUserPhysicalPages((void*)(bufWptr + offset), NUM_PAGES, offsetToPFN[offset - N * B]);
+		
 		offsetToPFN.erase(offset - B);
 		
 		
@@ -126,6 +141,9 @@ LONG WINAPI handler(PEXCEPTION_POINTERS info) {
 		}
 		std::cout << "Waiting For Full Block\n";
 		semFull.acquire();
+		MapUserPhysicalPages((void*)(bufRptr + offset), NUM_PAGES, offsetToPFN[offset]);
+		
+		
 		std::cout << "Full Block Acquired\n";
 
 	}
@@ -164,17 +182,7 @@ int main() {
 	EnableLockPagesPrivilege();
 	AddVectoredExceptionHandler(1, handler);
 	
-	semEmpty.acquire();
-	for (size_t i = 0; i < M + N + L + 1; i++) {
-		
-		ULONG_PTR PFNarr[NUM_PAGES];
-		ULONG_PTR numberOfPages = NUM_PAGES;
-		AllocateUserPhysicalPages(GetCurrentProcess(), &numberOfPages, PFNarr);
-		
-		LPVOID ptr = (LPVOID)bufW;
-		MapUserPhysicalPages(ptr, NUM_PAGES, PFNarr);
-		offsetToPFN[i*B] = PFNarr;
-	}
+	
 	
 	std::thread produce(producer);
 	std::thread consume(consumer);
