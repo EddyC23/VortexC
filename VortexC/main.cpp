@@ -74,15 +74,19 @@ std::string GetLastErrorAsString()
 
 
 const int L = 0;
-const int N = 1;
-const int M = -1; 
+const int N = 2;
+const int M = 3; 
+
 const ULONG_PTR NUM_PAGES = 2;
-const ULONG_PTR B = NUM_PAGES * 4096; //Block size : num of bytes per block 
+const ULONG_PTR B = NUM_PAGES * 4096; //Block size : num of bytes per block
+const ULONG_PTR BLOCK_SIZE_POWER = 13;
+
 const void* bufW = VirtualAlloc(NULL, 1ULL << 40, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
 const void *  bufR = VirtualAlloc(NULL,1ULL << 40, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
 std::map<ULONG_PTR, PULONG_PTR> offsetToPFN;
-
-
+//create a test case that comes back with odd write with consumer.. and M N L + 1
+//can use std:;chrono to time, benchmarks can be smaller so they finish in  areasonable amount of time
+//m is consumer comeback region
 std::counting_semaphore semFull(0);
 std::counting_semaphore semEmpty(N+L);
 
@@ -93,6 +97,7 @@ LONG WINAPI handler(PEXCEPTION_POINTERS info) {
 	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
 	ULONG_PTR bufWptr = (ULONG_PTR)bufW;
 	ULONG_PTR bufRptr = (ULONG_PTR)bufR;
+
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
 	
 	/*00010000
@@ -100,23 +105,33 @@ LONG WINAPI handler(PEXCEPTION_POINTERS info) {
 	01111111*/
 	if (isWriteFault) {
 		//8b and with 8byte 
-		std::cout << "Write Fault\n";
-		std::cout << fptr - bufWptr;
-		ULONG_PTR offset = (fptr - bufWptr)&(~(B-1)); 
+		ULONG_PTR offset = (fptr - bufWptr) & (~(B - 1));
+		ULONGLONG offsetBlock = offset >> BLOCK_SIZE_POWER;
+		std::cout << "Write Fault at Block: " << offsetBlock << "\n";
+		
 		if (offset == 0) {
 			semEmpty.acquire();
-			for (size_t i = 0; i < M + N + L + 1; i++) {
+			for (ULONG_PTR i = 0; i < M + N + L + 1; i++) {
 
 				PULONG_PTR PFNarr = new ULONG_PTR[NUM_PAGES];
 				ULONG_PTR numberOfPages = NUM_PAGES;
+				ULONG_PTR initOffset = i * B;
+
+
 				AllocateUserPhysicalPages(GetCurrentProcess(), &numberOfPages, PFNarr);
 
-				LPVOID ptr = (LPVOID)bufW;
-				MapUserPhysicalPages(ptr, NUM_PAGES, PFNarr);
-				offsetToPFN[i * B] = PFNarr;
+
+				offsetToPFN[initOffset] = PFNarr;
+
+				MapUserPhysicalPages((LPVOID)(bufWptr + initOffset), NUM_PAGES, PFNarr);
+
 			}
 			return EXCEPTION_CONTINUE_EXECUTION;
-		}else if (offset > 0) {
+		}
+		else if (offset > 0 && offset < N * B) {
+		}
+		else if (offset  >= N * B) {
+				//unmap first block in write buffer for consumer
 				MapUserPhysicalPages((void *)(bufWptr + offset - N * B), NUM_PAGES, NULL);
 			
 				semFull.release();
@@ -126,21 +141,26 @@ LONG WINAPI handler(PEXCEPTION_POINTERS info) {
 		std::cout << "Waiting For Empty Block\n";
 		semEmpty.acquire();
 		std::cout << "Empty Block Acquired\n";
-		offsetToPFN[offset] = offsetToPFN[offset - B];
-		MapUserPhysicalPages((void*)(bufWptr + offset), NUM_PAGES, offsetToPFN[offset - N * B]);
 		
-		offsetToPFN.erase(offset - B);
+		//map front of the read buffer to the fault place of the write buffer
+		MapUserPhysicalPages((void*)(bufWptr + offset), NUM_PAGES, offsetToPFN[offset - (N + M + 1) * B]);
+		offsetToPFN[offset] = offsetToPFN[offset - (N + L) * B];
+		offsetToPFN.erase(offset - (N + M + 1) * B);
 		
 		
 	}
 	else {
 		ULONG_PTR offset = (fptr - bufRptr) & (~(B - 1));
-		if (offset > 0) {
-			MapUserPhysicalPages((void*)(bufRptr + offset - (1 * B)), NUM_PAGES, NULL);
+		ULONGLONG offsetBlock = offset >> BLOCK_SIZE_POWER;
+		std::cout << "Read Fault at Block: " << offsetBlock << "\n";
+		if (offset >= (M + 1)  * B) {
+			//unmap the front of the read buffer for the producer to take phys page
+			MapUserPhysicalPages((void*)(bufRptr + offset - ((M + 1) * B)), NUM_PAGES, NULL);
 			semEmpty.release();
 		}
 		std::cout << "Waiting For Full Block\n";
 		semFull.acquire();
+		//map the front of the write buffer to end of the read buffer where fault occured
 		MapUserPhysicalPages((void*)(bufRptr + offset), NUM_PAGES, offsetToPFN[offset]);
 		
 		
@@ -181,9 +201,6 @@ int main() {
 	
 	EnableLockPagesPrivilege();
 	AddVectoredExceptionHandler(1, handler);
-	
-	
-	
 	std::thread produce(producer);
 	std::thread consume(consumer);
 	produce.join();
