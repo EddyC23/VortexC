@@ -28,6 +28,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Times.txt" />
     <Text Include="Benchmark.txt" />
   </ItemGroup>
 </Project>

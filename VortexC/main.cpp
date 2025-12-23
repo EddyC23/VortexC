@@ -167,7 +167,7 @@ int main() {
 	
 	
 	
-	
+	 
 
 	ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
 	unsigned int L, M, N;
@@ -204,29 +204,44 @@ int main() {
 	L = 2, M = 3, N = 4;
 	Vortex v7(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);
 
-	std::ofstream output("Benchmark.txt", std::ios_base::out);
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 8; 
+	L = 2, M = 3, N = 4;
+	Vortex v8(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer2, &testconsumer2);
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 8;
+	L = 2, M = 3, N = 4;
+	Vortex v9(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);
+
+	std::ofstream times("Times.txt", std::ios_base::out);
+	std::ofstream benchmark("Benchmark.txt", std::ios_base::out);
 	std::vector<std::string> descriptions =
 	{
-		"1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n",
-		"1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
-		"1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n",
-		"1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
-		"128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
-		"128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
-		"128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
-		"128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
+		"1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
+		"1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
+		"1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
+		"1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
+		"128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
+		"128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
+		"128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
+		"128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
+		"128mb, 1mb blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
+		"128mb, 1mb blocks, L = 2, M = 3, N = 4, char producer, plain consumer"
 
 	};
-	std::vector<Vortex * > vortexes = { &v0,&v1,&v2,&v3,&v4,&v5,&v6,&v7 };
+	std::vector<Vortex * > vortexes = { &v0,&v1,&v2,&v3,&v4,&v5,&v6,&v7, &v8, &v9 };
 	
 
-	for (size_t i = 0; i < 8; i++) {
+	for (size_t i = 0; i < vortexes.size(); i++) {
 
-		output << descriptions.at(i);
+		
 
 		ULONGLONG sum = 0;
+		ULONGLONG first = 0;
+		size_t numTests = 10;
 
-		for (size_t j = 0; j < 30; j++) {
+		times << descriptions.at(i) << "\n";
+
+		for (size_t j = 0; j < numTests; j++) {
 
 			
 
@@ -234,18 +249,34 @@ int main() {
 			vortexes.at(i)->start();
 			auto endTime = std::chrono::steady_clock::now();
 			vortexes.at(i)->reset();
-
+			
+			if (j == 0) {
+				first = (endTime - startTime).count();
+			}
 			sum += (endTime - startTime).count();
+			
+			times << endTime - startTime << "\n";
+			
 
-			output << endTime - startTime << "\n";
+			
 		}
-		output << "Average Time: " << sum / 30 << "ns\n\n";
+
+		benchmark << descriptions.at(i) << "\n";
+		benchmark << "Average Time: " << sum / numTests << "ns || " << (float)(sum / numTests) / std::pow(10, 9) << "s\n";
+		benchmark << "Average Time Ignoring First: " << (sum - first) / (numTests - 1) << "ns\n\n";
+
+		std::cout << descriptions.at(i) << "\n";
+		std::cout << "Average Time: " << sum / numTests << "ns || " << (float)(sum / numTests) / std::pow(10, 9) << "s\n";
+		std::cout << "Average Time Ignoring First: " << (sum - first) / (numTests-1) << "ns\n\n";
 	}
 	
 	
 	
-
-	output.close();
+	
+	
+	times.close();
+	benchmark.close();
+	
 
 
 }

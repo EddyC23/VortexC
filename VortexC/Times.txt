@@ -1,0 +1,110 @@
+1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+7975400ns
+7791400ns
+7951900ns
+8032400ns
+8368000ns
+7848000ns
+8382900ns
+8045100ns
+7347100ns
+7837500ns
+1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+1727300ns
+1498300ns
+1411600ns
+1557200ns
+1513600ns
+1454900ns
+1466800ns
+1582000ns
+1600500ns
+1498400ns
+1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+8950000ns
+8793400ns
+8081400ns
+8011900ns
+7846900ns
+8357800ns
+8430300ns
+7999300ns
+12911100ns
+8098900ns
+1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+6198000ns
+2386700ns
+2962900ns
+2491100ns
+2322100ns
+3039700ns
+2565800ns
+2440900ns
+2514600ns
+6160200ns
+128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+869404900ns
+838403000ns
+853418300ns
+843426100ns
+838148300ns
+840973200ns
+855737900ns
+840907100ns
+837935200ns
+875472500ns
+128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+173501800ns
+174726400ns
+167399600ns
+166190500ns
+167828300ns
+166466100ns
+163351500ns
+176192200ns
+163659300ns
+161917000ns
+128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+1024032300ns
+1054689800ns
+1024984400ns
+1006608300ns
+995740800ns
+1002275200ns
+1146039200ns
+1230494300ns
+1232461700ns
+1228166100ns
+128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+363259400ns
+355373600ns
+356100800ns
+363595900ns
+360952100ns
+354508900ns
+378671400ns
+394338000ns
+417767900ns
+425417700ns
+128mb, 1mb blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+83324800ns
+80916300ns
+75703600ns
+78609400ns
+77849400ns
+85902900ns
+77406900ns
+79626900ns
+83348200ns
+77116600ns
+128mb, 1mb blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+272181800ns
+257381200ns
+242165000ns
+242116700ns
+233276100ns
+237086000ns
+246865200ns
+647524300ns
+234904600ns
+244728600ns

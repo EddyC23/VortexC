@@ -102,6 +102,9 @@ void Vortex::start() {
 
 void Vortex::reset() {
 
+	lastConsUnmap = 0;
+	MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL);
+
 	while(full.try_acquire()){}
 	while(empty.try_acquire()){}
 	for (unsigned int i = 0; i < N + L; i++) {

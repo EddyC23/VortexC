@@ -1,2 +1,40 @@
 1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-8959000ns
+Average Time: 7957970ns || 0.00795797s
+Average Time Ignoring First: 7956033ns
+
+1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+Average Time: 1531060ns || 0.00153106s
+Average Time Ignoring First: 1509255ns
+
+1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+Average Time: 8748100ns || 0.0087481s
+Average Time Ignoring First: 8725666ns
+
+1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+Average Time: 3308200ns || 0.0033082s
+Average Time Ignoring First: 2987111ns
+
+128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+Average Time: 849382650ns || 0.849383s
+Average Time Ignoring First: 847157955ns
+
+128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+Average Time: 168123270ns || 0.168123s
+Average Time Ignoring First: 167525655ns
+
+128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+Average Time: 1094549210ns || 1.09455s
+Average Time Ignoring First: 1102384422ns
+
+128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+Average Time: 376998570ns || 0.376999s
+Average Time Ignoring First: 378525144ns
+
+128mb, 1mb blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+Average Time: 79980500ns || 0.0799805s
+Average Time Ignoring First: 79608911ns
+
+128mb, 1mb blocks, L = 2, M = 3, N = 4, char producer, plain consumer
+Average Time: 285822950ns || 0.285823s
+Average Time Ignoring First: 287338633ns
+

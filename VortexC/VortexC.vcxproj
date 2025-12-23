@@ -134,6 +134,7 @@
     <ClInclude Include="Vortex.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Times.txt" />
     <Text Include="Benchmark.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
