@@ -5,7 +5,7 @@
 #include <semaphore>
 #include <map>
 #include <string>
-
+#include <chrono>
 Vortex * Vortex::instance = nullptr;
 
 
@@ -15,7 +15,7 @@ LONG WINAPI Vortex::handler(PEXCEPTION_POINTERS info) {
 }
 
 LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
-	std::cout << "Fault Handler Called\n";
+	//std::cout << "Fault Handler Called\n";
 
 
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
@@ -23,8 +23,8 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 
 	if (isWriteFault) {
 		ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
-		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + 12);
-		std::cout << "Write Fault at Block : " << offsetBlock << "\n";
+		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
+		//std::cout << "Write Fault at Block : " << offsetBlock << "\n";
 		//still dont fully understand L and N hrmmm esp the async writing into L and non monotonically blocks ? how would that work or is that something the thread has to ensure hrmm
 		if (offsetBlock >= M+ N + L + 1) {
 			full.release();
@@ -50,8 +50,8 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	}
 	else {
 		ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
-		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + 12);
-		std::cout <<"Read Fault at Block : " << offsetBlock << "\n";
+		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
+		//std::cout <<"Read Fault at Block : " << offsetBlock << "\n";
 		if (offsetBlock >= M + 1) {
 			empty.release();
 		}
@@ -65,10 +65,10 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 }
 Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned  int N, void (*producer)(const void*), void (*consumer)(const void*)) :
 	STREAM_SIZE_POWER{ STREAM_SIZE_POWER }, STREAM_SIZE_BYTES{ 1ULL << STREAM_SIZE_POWER },
-	BLOCK_SIZE_PAGE_POWER{ BLOCK_SIZE_PAGE_POWER }, BLOCK_NUM_PAGES{ 1ULL << BLOCK_SIZE_PAGE_POWER }, BLOCK_SIZE_BYTES{ BLOCK_NUM_PAGES << 12 },
+	PAGE_POWER{12}, BLOCK_SIZE_PAGE_POWER{ BLOCK_SIZE_PAGE_POWER }, BLOCK_NUM_PAGES{ 1ULL << BLOCK_SIZE_PAGE_POWER }, BLOCK_SIZE_BYTES{ BLOCK_NUM_PAGES << PAGE_POWER }, PFNarray{ new ULONG_PTR[BLOCK_NUM_PAGES * (N + L + M + 1)]},
 	L{ L }, M{ M }, N{ N },
 	producer{ producer }, consumer{ consumer },
-	full{ 0 }, empty{ M + N + L + 1 }
+	full{ 0 }, empty{  N + L  }
 
 {
 	
@@ -78,34 +78,50 @@ Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, uns
 	instance = this;
 	bufWptr = VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
 	bufRptr = VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
-
+	ULONGLONG numPages = BLOCK_NUM_PAGES * (N + L + M + 1);
+	AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, PFNarray);
 	for (unsigned int i = 0; i < N + L + M  +  1;i++) {
-		ULONGLONG numPages = BLOCK_NUM_PAGES;
-		PULONG_PTR PFNarray = new ULONG_PTR[BLOCK_NUM_PAGES];
-		AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, PFNarray);
-		offsetToPFN[i] = PFNarray;
+		
+		offsetToPFN[i] = &PFNarray[i * BLOCK_NUM_PAGES];
 		
 	}
-	for (unsigned int i = 0; i < N + L; i++) {
-		empty.release();
-	}
+	
 }
-//Vortex::~Vortex() {
-//	/*for (int i = 0; i < M + N + L + 1; i++) {
-//		ULONGLONG numPages = BLOCK_NUM_PAGES;
-//		
-//		FreeUserPhysicalPages(GetCurrentProcess(), &numPages, PFNarray);
-//
-//	}*/
-//	//TODOOOo ! 
-//}
+Vortex::~Vortex() {
+	delete[] PFNarray;
+}
+
 void Vortex::start() {
 	instance = this;
 	std::thread produce(producer, bufWptr);
 	std::thread consume(consumer, bufRptr);
 	produce.join();
 	consume.join();
-	std::cout << "Done.";
+	//std::cout << "Done.";
+}
+
+void Vortex::reset() {
+
+	while(full.try_acquire()){}
+	while(empty.try_acquire()){}
+	for (unsigned int i = 0; i < N + L; i++) {
+
+		empty.release();
+
+	}
+	offsetToPFN.clear();
+	for (unsigned int i = 0; i < N + L + M + 1; i++) {
+
+		offsetToPFN[i] = &PFNarray[i * BLOCK_NUM_PAGES];
+
+	}
+}
+
+void Vortex::producer_done() {
+	for (unsigned int i = 0; i < instance->M; i++) {
+		instance->full.release();
+	}
+		
 }
 
 

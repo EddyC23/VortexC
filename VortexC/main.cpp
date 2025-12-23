@@ -5,170 +5,249 @@
 #include <chrono>
 #include <semaphore>
 #include <map>
+#include <fstream>
+//producers and consumers need to have explicit length
+//void producer(const void * bufWptr) {
+//	
+//	ULONGLONG i = 0;
+//	
+//	while (true) {
+//		((int*)bufWptr)[i] = i;
+//		i++;
+//		std::cout<<"Current is: " << i << "\n";
+//	}
+//}
+//
+//void consumer(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//	
+//	long long sum = 0;
+//	while (true) {
+//		sum += ((int*)bufRptr)[i];
+//		i++;
+//		std::cout << "Sum is: " << sum<<"\n";
+//	}
+//	
+//}
+//void testproducer(const void* bufWptr) {
+//
+//	ULONGLONG i = 0;
+//
+//	while (i < 16384) {
+//		((int*)bufWptr)[i] = i;
+//		i++;
+//		std::cout << "Current is: " << i << "\n";
+//	}
+//	/*((int*)bufWptr)[i] = i;*/
+//	std::cout << "Producer Done.";
+//	Vortex::producer_done();
+//}
+//
+//void testconsumer(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//
+//	long long sum = 0;
+//	while (i<16384) {
+//		sum += ((int*)bufRptr)[i];
+//		i++;
+//		std::cout << "Sum is: " << sum << "\n";
+//	}
+//	std::cout << "Consumer Done.";
+//}
 
+void testproducer0(const void* bufWptr) {
 
-
-//Returns the last Win32 error, in string format. Returns an empty string if there is no error.
-
-
-
-const int L = 0;
-const int N = 2;
-const int M = 3; 
-
-const ULONG_PTR NUM_PAGES = 2;
-const ULONG_PTR B = NUM_PAGES * 4096; //Block size : num of bytes per block
-const ULONG_PTR BLOCK_SIZE_POWER = 13;
-
-const void* bufW = VirtualAlloc(NULL, 1ULL << 40, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
-const void *  bufR = VirtualAlloc(NULL,1ULL << 40, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
-std::map<ULONG_PTR, PULONG_PTR> offsetToPFN;
-//create a test case that comes back with odd write with consumer.. and M N L + 1
-//can use std:;chrono to time, benchmarks can be smaller so they finish in  areasonable amount of time
-//m is consumer comeback region
-std::counting_semaphore semFull(0);
-
-std::counting_semaphore semEmpty(N+L);
-
-
-LONG WINAPI handler(PEXCEPTION_POINTERS info) {
-	std::cout << "Fault Handler Called\n";
-	
-	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
-	ULONG_PTR bufWptr = (ULONG_PTR)bufW;
-	ULONG_PTR bufRptr = (ULONG_PTR)bufR;
-
-	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
-	
-	/*00010000
-	11110000
-	01111111*/
-	if (isWriteFault) {
-		//8b and with 8byte 
-		ULONG_PTR offset = (fptr - bufWptr) & (~(B - 1));
-		ULONGLONG offsetBlock = offset >> BLOCK_SIZE_POWER;
-		std::cout << "Write Fault at Block: " << offsetBlock << "\n";
-		
-		if (offset == 0) {
-			semEmpty.acquire();
-			for (ULONG_PTR i = 0; i < M + N + L + 1; i++) {
-
-				PULONG_PTR PFNarr = new ULONG_PTR[NUM_PAGES];
-				ULONG_PTR numberOfPages = NUM_PAGES;
-				ULONG_PTR initOffset = i * B;
-
-
-				AllocateUserPhysicalPages(GetCurrentProcess(), &numberOfPages, PFNarr);
-
-
-				offsetToPFN[initOffset] = PFNarr;
-
-				MapUserPhysicalPages((LPVOID)(bufWptr + initOffset), NUM_PAGES, PFNarr);
-
-			}
-			return EXCEPTION_CONTINUE_EXECUTION;
-		}
-		else if (offset > 0 && offset < N * B) {
-		}
-		else if (offset  >= N * B) {
-				//unmap first block in write buffer for consumer
-				MapUserPhysicalPages((void *)(bufWptr + offset - N * B), NUM_PAGES, NULL);
-			
-				semFull.release();
-		}
-		
-		
-		std::cout << "Waiting For Empty Block\n";
-		semEmpty.acquire();
-		std::cout << "Empty Block Acquired\n";
-		
-		//map front of the read buffer to the fault place of the write buffer
-		MapUserPhysicalPages((void*)(bufWptr + offset), NUM_PAGES, offsetToPFN[offset - (N + M + 1) * B]);
-		offsetToPFN[offset] = offsetToPFN[offset - (N + L) * B];
-		offsetToPFN.erase(offset - (N + M + 1) * B);
-		
-		
-	}
-	else {
-		ULONG_PTR offset = (fptr - bufRptr) & (~(B - 1));
-		ULONGLONG offsetBlock = offset >> BLOCK_SIZE_POWER;
-		std::cout << "Read Fault at Block: " << offsetBlock << "\n";
-		if (offset >= (M + 1)  * B) {
-			//unmap the front of the read buffer for the producer to take phys page
-			MapUserPhysicalPages((void*)(bufRptr + offset - ((M + 1) * B)), NUM_PAGES, NULL);
-			semEmpty.release();
-		}
-		std::cout << "Waiting For Full Block\n";
-		semFull.acquire();
-		//map the front of the write buffer to end of the read buffer where fault occured
-		MapUserPhysicalPages((void*)(bufRptr + offset), NUM_PAGES, offsetToPFN[offset]);
-		
-		
-		std::cout << "Full Block Acquired\n";
-
-	}
-	return EXCEPTION_CONTINUE_EXECUTION;
-}
-
-
-void producer(const void * bufWptr) {
-	
 	ULONGLONG i = 0;
-	
-	while (true) {
+
+	while (i < 1ULL << 20 >> 2) {
 		((int*)bufWptr)[i] = i;
+		
 		i++;
-		std::cout<<"Current is: " << i << "\n";
 	}
-}
-
-void consumer(const void* bufRptr) {
-	ULONGLONG i = 0;
-	
-	long long sum = 0;
-	while (true) {
-		sum += ((int*)bufRptr)[i];
-		i++;
-		std::cout << "Sum is: " << sum<<"\n";
-	}
+	Vortex::producer_done();
 	
 }
-void testproducer(const void* bufWptr) {
 
-	ULONGLONG i = 0;
-
-	while (i < 16384) {
-		((int*)bufWptr)[i] = i;
-		i++;
-		std::cout << "Current is: " << i << "\n";
-	}
-	((int*)bufWptr)[i] = i;
-	std::cout << "Producer Done.";
-}
-
-void testconsumer(const void* bufRptr) {
+void testconsumer0(const void* bufRptr) {
 	ULONGLONG i = 0;
 
 	long long sum = 0;
-	while (i<16384) {
+	while (i < 1ULL<< 20 >>2) {
 		sum += ((int*)bufRptr)[i];
 		i++;
-		std::cout << "Sum is: " << sum << "\n";
 	}
-	std::cout << "Consumer Done.";
+}
+
+void testproducer1(const void* bufWptr) {
+
+	ULONGLONG i = 0;
+
+	while (i < (1ULL << 20) - 3) {
+		
+		
+		memset((void *)((ULONG_PTR)bufWptr + i), 'a', 3);
+		i += 3;
+	}
+	
+	((char*)bufWptr)[i] = 'z';
+	Vortex::producer_done();
+}
+
+void testconsumer1(const void* bufRptr) {
+	ULONGLONG i = 0;
+	
+	while (i < 1ULL<<20) {
+		if (((char*)bufRptr)[i]) {}
+		i++;
+	}
+}
+
+void testproducer2(const void* bufWptr) {
+
+	ULONGLONG i = 0;
+
+	while (i < 1ULL << 27 >> 2) {
+		((int*)bufWptr)[i] = i;
+		i++;
+	}
+	Vortex::producer_done();
+}
+
+void testconsumer2(const void* bufRptr) {
+	ULONGLONG i = 0;
+
+	long long sum = 0;
+	while (i < 1ULL << 27 >> 2) {
+		sum += ((int*)bufRptr)[i];
+		i++;
+	}
+}
+
+void testproducer3(const void* bufWptr) {
+
+	ULONGLONG i = 0;
+
+	while (i < (1ULL << 27) - 3) {
+
+
+		memset((void*)((ULONG_PTR)bufWptr + i), 'a', 3);
+		i += 3;
+	}
+
+	((char*)bufWptr)[i] = 'z';
+	Vortex::producer_done();
+}
+
+void testconsumer3(const void* bufRptr) {
+	ULONGLONG i = 0;
+
+	while (i < 1ULL << 27) {
+		if (((char*)bufRptr)[i]) {}
+		i++;
+	}
 }
 
 
 
 int main() {
 	
-	ULONGLONG STREAM_SIZE_POWER = 40, BLOCK_SIZE_PAGE_POWER = 0;
+	/*ULONGLONG STREAM_SIZE_POWER = 40, BLOCK_SIZE_PAGE_POWER = 0;
 	unsigned int L = 2, M = 3, N = 4;
 	Vortex v(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER , L, M, N, &producer, &consumer);
 	STREAM_SIZE_POWER =  16, BLOCK_SIZE_PAGE_POWER = 0;
 	L = 2, M = 3, N = 4;
 	Vortex v1(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer, &testconsumer);
-	v1.start();
+	STREAM_SIZE_POWER = 16, BLOCK_SIZE_PAGE_POWER = 0;
+	L = 0, M = 0, N = 1;
+	Vortex v2(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer, &testconsumer);*/
+	//still some bugs with special cases v2 hmmmm and also having multiple decalrations of vortex objects
+	//v1.start();
+
+	//benchmarks
+	
+	
+	
+	
+
+	ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
+	unsigned int L, M, N;
+	
+	STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 0;
+	L = 2, M = 3, N = 4;
+	Vortex v0(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer0, &testconsumer0);
+
+	STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 3;
+	L = 2, M = 3, N = 4;
+	Vortex v1(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer0, &testconsumer0);
+
+	STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 0;
+	L = 2, M = 3, N = 4;
+	Vortex v2(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer1, &testconsumer1);
+
+	STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 3;
+	L = 2, M = 3, N = 4;
+	Vortex v3(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer1, &testconsumer1);
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 0;
+	L = 2, M = 3, N = 4;
+	Vortex v4(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer2, &testconsumer2);
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 3;
+	L = 2, M = 3, N = 4;
+	Vortex v5(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer2, &testconsumer2);
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 0;
+	L = 2, M = 3, N = 4;
+	Vortex v6(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 3;
+	L = 2, M = 3, N = 4;
+	Vortex v7(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);
+
+	std::ofstream output("Benchmark.txt", std::ios_base::out);
+	std::vector<std::string> descriptions =
+	{
+		"1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n",
+		"1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
+		"1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n",
+		"1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
+		"128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
+		"128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer\n"
+		"128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
+		"128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer\n"
+
+	};
+	std::vector<Vortex * > vortexes = { &v0,&v1,&v2,&v3,&v4,&v5,&v6,&v7 };
+	
+
+	for (size_t i = 0; i < 8; i++) {
+
+		output << descriptions.at(i);
+
+		ULONGLONG sum = 0;
+
+		for (size_t j = 0; j < 30; j++) {
+
+			
+
+			auto startTime = std::chrono::steady_clock::now();
+			vortexes.at(i)->start();
+			auto endTime = std::chrono::steady_clock::now();
+			vortexes.at(i)->reset();
+
+			sum += (endTime - startTime).count();
+
+			output << endTime - startTime << "\n";
+		}
+		output << "Average Time: " << sum / 30 << "ns\n\n";
+	}
+	
+	
+	
+
+	output.close();
+
+
 }
 
 

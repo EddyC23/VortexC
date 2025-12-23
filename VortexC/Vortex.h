@@ -8,30 +8,36 @@ class Vortex {
 public:
 	
 	
+	struct Stream {
+		void (*consumer)(const void*);
+	};
 	Vortex(ULONGLONG STREAM_SIZE_POWER,ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned int N, void (*producer)(const void*), void (*consumer)(const void*));
-	//~Vortex();
-	//no rule of three bc lazy
-	
+	~Vortex();
+	//no rule of 3 laz no need
 	void start();
-
+	void reset();
+	static void producer_done();
 	
-
 private:
 
 	static LONG WINAPI handler(PEXCEPTION_POINTERS info);
 	static Vortex* instance; 
 
 	LONG handle_exception(PEXCEPTION_POINTERS info);
+	
+	const unsigned int L;
+	const unsigned int M;
+	const unsigned int N;
 
+	const ULONGLONG PAGE_POWER;
 	const ULONGLONG STREAM_SIZE_POWER;
 	const ULONGLONG STREAM_SIZE_BYTES;
 	const ULONGLONG BLOCK_SIZE_PAGE_POWER;
 	const ULONGLONG BLOCK_NUM_PAGES;
 	const ULONGLONG BLOCK_SIZE_BYTES;
+	const PULONG_PTR PFNarray;
 
-	const unsigned int L;
-	const unsigned int M;
-	const unsigned int N;
+	
 
 	const void* bufWptr;
 	const void* bufRptr;

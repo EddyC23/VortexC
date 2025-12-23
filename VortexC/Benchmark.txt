@@ -1,0 +1,2 @@
+1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
+8959000ns
