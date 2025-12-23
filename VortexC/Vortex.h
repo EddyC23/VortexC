@@ -13,7 +13,7 @@ public:
 	};
 	Vortex(ULONGLONG STREAM_SIZE_POWER,ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned int N, void (*producer)(const void*), void (*consumer)(const void*));
 	~Vortex();
-	//no rule of 3 laz no need
+	double getStreamSizeGB();
 	void start();
 	void reset();
 	static void producer_done();
@@ -32,6 +32,7 @@ private:
 	const ULONGLONG PAGE_POWER;
 	const ULONGLONG STREAM_SIZE_POWER;
 	const ULONGLONG STREAM_SIZE_BYTES;
+	const double STREAM_SIZE_GB;
 	const ULONGLONG BLOCK_SIZE_PAGE_POWER;
 	const ULONGLONG BLOCK_NUM_PAGES;
 	const ULONGLONG BLOCK_SIZE_BYTES;

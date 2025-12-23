@@ -230,6 +230,7 @@ int main() {
 	};
 	std::vector<Vortex * > vortexes = { &v0,&v1,&v2,&v3,&v4,&v5,&v6,&v7, &v8, &v9 };
 	
+	std::cout << v8.getStreamSizeGB();
 
 	for (size_t i = 0; i < vortexes.size(); i++) {
 
@@ -262,12 +263,13 @@ int main() {
 		}
 
 		benchmark << descriptions.at(i) << "\n";
-		benchmark << "Average Time: " << sum / numTests << "ns || " << (float)(sum / numTests) / std::pow(10, 9) << "s\n";
-		benchmark << "Average Time Ignoring First: " << (sum - first) / (numTests - 1) << "ns\n\n";
+		benchmark << "Average Time: " << sum / numTests << "ns || " << (double)(sum / numTests) / std::pow(10, 9) << "s\n";
+		benchmark << "Average speed: " << (vortexes.at(i)->getStreamSizeGB() / ((double)(sum / numTests) / std::pow(10, 9))) << "GB/s\n";
 
 		std::cout << descriptions.at(i) << "\n";
-		std::cout << "Average Time: " << sum / numTests << "ns || " << (float)(sum / numTests) / std::pow(10, 9) << "s\n";
-		std::cout << "Average Time Ignoring First: " << (sum - first) / (numTests-1) << "ns\n\n";
+		std::cout << "Average Time: " << sum / numTests << "ns || " << (double)(sum / numTests) / std::pow(10, 9) << "s\n";
+		std::cout << "Average speed: " << (vortexes.at(i)->getStreamSizeGB() / ((double)(sum / numTests) / std::pow(10, 9))) << "GB/s\n";
+		
 	}
 	
 	

@@ -64,7 +64,7 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	return EXCEPTION_CONTINUE_EXECUTION;
 }
 Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned  int N, void (*producer)(const void*), void (*consumer)(const void*)) :
-	STREAM_SIZE_POWER{ STREAM_SIZE_POWER }, STREAM_SIZE_BYTES{ 1ULL << STREAM_SIZE_POWER },
+	STREAM_SIZE_POWER{ STREAM_SIZE_POWER }, STREAM_SIZE_BYTES{ 1ULL << STREAM_SIZE_POWER }, STREAM_SIZE_GB{double(STREAM_SIZE_BYTES) / std::pow(2, 30)},
 	PAGE_POWER{12}, BLOCK_SIZE_PAGE_POWER{ BLOCK_SIZE_PAGE_POWER }, BLOCK_NUM_PAGES{ 1ULL << BLOCK_SIZE_PAGE_POWER }, BLOCK_SIZE_BYTES{ BLOCK_NUM_PAGES << PAGE_POWER }, PFNarray{ new ULONG_PTR[BLOCK_NUM_PAGES * (N + L + M + 1)]},
 	L{ L }, M{ M }, N{ N },
 	producer{ producer }, consumer{ consumer },
@@ -126,7 +126,9 @@ void Vortex::producer_done() {
 	}
 		
 }
-
+double Vortex::getStreamSizeGB() {
+	return STREAM_SIZE_GB;
+}
 
 
 
