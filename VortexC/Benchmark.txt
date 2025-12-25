@@ -1,30 +1,6 @@
-1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-Average Time: 8986620ns || 0.00898662s
-Average speed: 0.108668GB/s
-1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-Average Time: 1599310ns || 0.00159931s
-Average speed: 0.610615GB/s
-1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
-Average Time: 8732510ns || 0.00873251s
-Average speed: 0.111831GB/s
-1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
-Average Time: 2503540ns || 0.00250354s
-Average speed: 0.390073GB/s
-128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-Average Time: 945728130ns || 0.945728s
-Average speed: 0.132173GB/s
-128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-Average Time: 192737880ns || 0.192738s
-Average speed: 0.648549GB/s
-128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
-Average Time: 1236451370ns || 1.23645s
-Average speed: 0.101096GB/s
-128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer
-Average Time: 400586450ns || 0.400586s
-Average speed: 0.312043GB/s
-128mb, 1mb blocks, L = 2, M = 3, N = 4, int producer, summation consumer
-Average Time: 70707200ns || 0.0707072s
-Average speed: 1.76785GB/s
-128mb, 1mb blocks, L = 2, M = 3, N = 4, char producer, plain consumer
-Average Time: 273571090ns || 0.273571s
-Average speed: 0.45692GB/s
+_mm256_storeu_si256
+Average Time: 50016610ns || 0.0500166s
+Average speed: 2.49917GB/s
+_mm256_storeu_si256
+Average Time: 39308670ns || 0.0393087s
+Average speed: 3.17996GB/s

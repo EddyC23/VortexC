@@ -55,99 +55,133 @@
 //	std::cout << "Consumer Done.";
 //}
 
-void testproducer0(const void* bufWptr) {
+//void testproducer0(const void* bufWptr) {
+//
+//	ULONGLONG i = 0;
+//
+//	while (i < 1ULL << 20 >> 2) {
+//		((int*)bufWptr)[i] = i;
+//		
+//		i++;
+//	}
+//	Vortex::producer_done();
+//	
+//}
+//
+//void testconsumer0(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//
+//	long long sum = 0;
+//	while (i < 1ULL<< 20 >>2) {
+//		sum += ((int*)bufRptr)[i];
+//		i++;
+//	}
+//}
+//
+//void testproducer1(const void* bufWptr) {
+//
+//	ULONGLONG i = 0;
+//
+//	while (i < (1ULL << 20) - 3) {
+//		
+//		
+//		memset((void *)((ULONG_PTR)bufWptr + i), 'a', 3);
+//		i += 3;
+//	}
+//	
+//	((char*)bufWptr)[i] = 'z';
+//	Vortex::producer_done();
+//}
+//
+//void testconsumer1(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//	
+//	while (i < 1ULL<<20) {
+//		if (((char*)bufRptr)[i]) {}
+//		i++;
+//	}
+//}
+//
+//void testproducer2(const void* bufWptr) {
+//
+//	ULONGLONG i = 0;
+//
+//	while (i < 1ULL << 27 >> 2) {
+//		((int*)bufWptr)[i] = i;
+//		i++;
+//	}
+//	Vortex::producer_done();
+//}
+//
+//void testconsumer2(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//
+//	long long sum = 0;
+//	while (i < 1ULL << 27 >> 2) {
+//		sum += ((int*)bufRptr)[i];
+//		i++;
+//	}
+//}
+//
+//void testproducer3(const void* bufWptr) {
+//
+//	ULONGLONG i = 0;
+//
+//	while (i < (1ULL << 27) - 3) {
+//
+//
+//		memset((void*)((ULONG_PTR)bufWptr + i), 'a', 3);
+//		i += 3;
+//	}
+//
+//	((char*)bufWptr)[i] = 'z';
+//	Vortex::producer_done();
+//}
+//
+//void testconsumer3(const void* bufRptr) {
+//	ULONGLONG i = 0;
+//
+//	while (i < 1ULL << 27) {
+//		if (((char*)bufRptr)[i]) {}
+//		i++;
+//	}
+//}
 
-	ULONGLONG i = 0;
-
-	while (i < 1ULL << 20 >> 2) {
-		((int*)bufWptr)[i] = i;
-		
-		i++;
-	}
-	Vortex::producer_done();
+void producer0(const void* bufWptr) {
 	
-}
-
-void testconsumer0(const void* bufRptr) {
-	ULONGLONG i = 0;
-
-	long long sum = 0;
-	while (i < 1ULL<< 20 >>2) {
-		sum += ((int*)bufRptr)[i];
+	ULONG_PTR i =0;
+	__m256i X = _mm256_set1_epi32(1);
+	
+	while (i < 1ULL << 27 >> 5) {	
+		_mm256_storeu_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 5)), X);
 		i++;
 	}
+	Vortex::producer_done();
+}
+void producer1(const void* bufWptr) {
+
+	ULONG_PTR i = 0;
+	__m256i X = _mm256_set1_epi32(1);
+
+	while (i < 1ULL << 27 >> 5) {
+		_mm256_stream_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 5)), X);
+		i++;
+	}
+	Vortex::producer_done();
 }
 
-void testproducer1(const void* bufWptr) {
+void consumer0(const void* bufRptr) {
+	ULONG_PTR i = 0;
+	__m256i sum = _mm256_set1_epi32(0);
 
-	ULONGLONG i = 0;
-
-	while (i < (1ULL << 20) - 3) {
+	while (i < 1ULL << 27 >> 5) {
 		
 		
-		memset((void *)((ULONG_PTR)bufWptr + i), 'a', 3);
-		i += 3;
-	}
-	
-	((char*)bufWptr)[i] = 'z';
-	Vortex::producer_done();
-}
-
-void testconsumer1(const void* bufRptr) {
-	ULONGLONG i = 0;
-	
-	while (i < 1ULL<<20) {
-		if (((char*)bufRptr)[i]) {}
+		sum = _mm256_add_epi32(sum, _mm256_loadu_epi32((void*)((ULONG_PTR)bufRptr + (i << 5))));
 		i++;
 	}
-}
 
-void testproducer2(const void* bufWptr) {
-
-	ULONGLONG i = 0;
-
-	while (i < 1ULL << 27 >> 2) {
-		((int*)bufWptr)[i] = i;
-		i++;
-	}
-	Vortex::producer_done();
-}
-
-void testconsumer2(const void* bufRptr) {
-	ULONGLONG i = 0;
-
-	long long sum = 0;
-	while (i < 1ULL << 27 >> 2) {
-		sum += ((int*)bufRptr)[i];
-		i++;
-	}
-}
-
-void testproducer3(const void* bufWptr) {
-
-	ULONGLONG i = 0;
-
-	while (i < (1ULL << 27) - 3) {
-
-
-		memset((void*)((ULONG_PTR)bufWptr + i), 'a', 3);
-		i += 3;
-	}
-
-	((char*)bufWptr)[i] = 'z';
-	Vortex::producer_done();
-}
-
-void testconsumer3(const void* bufRptr) {
-	ULONGLONG i = 0;
-
-	while (i < 1ULL << 27) {
-		if (((char*)bufRptr)[i]) {}
-		i++;
-	}
-}
-
-
+} 
 
 int main() {
 	
@@ -164,15 +198,7 @@ int main() {
 	//v1.start();
 
 	//benchmarks
-	
-	
-	
-	 
-
-	ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
-	unsigned int L, M, N;
-	
-	STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 0;
+	/*STREAM_SIZE_POWER = 20, BLOCK_SIZE_PAGE_POWER = 0;
 	L = 2, M = 3, N = 4;
 	Vortex v0(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer0, &testconsumer0);
 
@@ -210,27 +236,31 @@ int main() {
 
 	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 8;
 	L = 2, M = 3, N = 4;
-	Vortex v9(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);
+	Vortex v9(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &testproducer3, &testconsumer3);*/
+
+	
+
+	ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
+	unsigned int L, M, N;
+
+	STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 8;
+	L = 2, M = 3, N = 4;
+
+	Vortex v0(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer0, &consumer0);
+	Vortex v1(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer1, &consumer0);
+	std::vector<Vortex* > vortexes = { &v0, &v1 };
 
 	std::ofstream times("Times.txt", std::ios_base::out);
 	std::ofstream benchmark("Benchmark.txt", std::ios_base::out);
 	std::vector<std::string> descriptions =
 	{
-		"1mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
-		"1mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
-		"1mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
-		"1mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
-		"128mb, 1 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
-		"128mb, 8 page blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
-		"128mb, 1 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
-		"128mb, 8 page blocks, L = 2, M = 3, N = 4, char producer, plain consumer",
-		"128mb, 1mb blocks, L = 2, M = 3, N = 4, int producer, summation consumer",
-		"128mb, 1mb blocks, L = 2, M = 3, N = 4, char producer, plain consumer"
+		"_mm256_storeu_si256",
+		"_mm256_storeu_si256"
 
 	};
-	std::vector<Vortex * > vortexes = { &v0,&v1,&v2,&v3,&v4,&v5,&v6,&v7, &v8, &v9 };
 	
-	std::cout << v8.getStreamSizeGB();
+	
+	
 
 	for (size_t i = 0; i < vortexes.size(); i++) {
 
