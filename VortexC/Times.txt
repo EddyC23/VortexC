@@ -1,22 +1,1802 @@
-_mm256_storeu_si256
-61119100ns
-58605600ns
-46496300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+39349100ns
+43929800ns
+40662000ns
+41899000ns
+40860000ns
+40650000ns
+40080100ns
+40147200ns
+40388700ns
+41033200ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+43294100ns
+41300400ns
+43687500ns
+43862200ns
+42696100ns
+40733600ns
+42174800ns
+41588800ns
+43589700ns
+43062700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+44229600ns
+42503200ns
+42570900ns
+43030100ns
+41370200ns
+42022100ns
+40942700ns
+42304600ns
+41851300ns
+40962100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+50267900ns
+49470300ns
+49412200ns
+48528200ns
+48520800ns
+47970700ns
+48242600ns
+48736300ns
+49004700ns
+49164700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+38065500ns
+35095300ns
+35519800ns
+34828700ns
+35116500ns
+35000500ns
+34278500ns
+34960100ns
+34801100ns
+34128300ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+35539000ns
+34107100ns
+35002400ns
+34697600ns
+33617100ns
+33604800ns
+34420200ns
+34816300ns
+34653000ns
+33860800ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+35813400ns
+34615800ns
+35172100ns
+36432400ns
+35855100ns
+36169200ns
+36341900ns
+35162900ns
+35066200ns
+35763600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+42882100ns
+41224100ns
+45999400ns
+41432200ns
+40948600ns
+41750600ns
+42813900ns
+41554700ns
+42906100ns
+42224500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+2mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+36820000ns
+35988000ns
+36684500ns
+36318400ns
+40062400ns
+38256600ns
+36871900ns
+38065000ns
+38318300ns
+37758600ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+39045500ns
+37676200ns
+37181300ns
+38469800ns
+36840600ns
+37445000ns
+37061600ns
+37433700ns
+37613800ns
+38260500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+38400200ns
+36669000ns
+37023900ns
+38360100ns
+37835000ns
+37813600ns
+37552700ns
+36393500ns
+36929000ns
+38727500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+47342100ns
+44057300ns
+44634800ns
+45203300ns
+44639300ns
+43976000ns
+44049200ns
+43409600ns
+45562200ns
+44646600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb block
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+39135300ns
+34444900ns
+35083200ns
+34266800ns
+34058800ns
+34481300ns
+34606300ns
+34392100ns
+34346500ns
+35830600ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+35381700ns
+33696200ns
+33991600ns
+34654700ns
+34101500ns
+33776400ns
+33577300ns
+34896700ns
+34161700ns
+33831700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+37288400ns
+36788700ns
+35595000ns
+35007200ns
+35932400ns
+35353200ns
+35178700ns
+34754500ns
+34860800ns
+36172400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+42919800ns
+41490000ns
+42723100ns
+40706700ns
+40806800ns
+40486700ns
+41135800ns
+42838300ns
+40785400ns
+40568200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kb block
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
 39807200ns
-53767100ns
-52706600ns
-46841200ns
-48367100ns
-45534800ns
-46921100ns
-_mm256_storeu_si256
-40673000ns
-40218100ns
-40095700ns
-39408100ns
-38376500ns
-38331400ns
-38782600ns
-38442100ns
-39735900ns
-39023300ns
+37603600ns
+35797600ns
+36054000ns
+36120400ns
+36588000ns
+36939800ns
+36173300ns
+35984600ns
+36654200ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+38231900ns
+36913100ns
+38559900ns
+37133800ns
+37462000ns
+37463200ns
+37477600ns
+37545600ns
+38043200ns
+39255300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+39879000ns
+38739600ns
+39507200ns
+38638300ns
+38876300ns
+38115600ns
+37517200ns
+37355900ns
+37375200ns
+37743900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+46210900ns
+44660800ns
+45082800ns
+44858800ns
+45219300ns
+45118200ns
+44998200ns
+45320700ns
+45422900ns
+45227900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb L1 M0 N1
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+37916400ns
+34956600ns
+34201000ns
+33940900ns
+35213300ns
+34004500ns
+33963800ns
+34530500ns
+34168200ns
+34278500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+35340400ns
+33892600ns
+33765600ns
+34088800ns
+34067000ns
+33798800ns
+33360000ns
+34862500ns
+33733100ns
+34025600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+35407800ns
+34580200ns
+35082100ns
+34428100ns
+34504100ns
+34142200ns
+34020800ns
+34690500ns
+34221400ns
+34711100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+41960200ns
+40250900ns
+42589000ns
+41196700ns
+40277400ns
+40279100ns
+40389100ns
+40821600ns
+40187700ns
+40435100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29662300ns
+29088300ns
+30411500ns
+31214500ns
+30174100ns
+30109400ns
+30159200ns
+30848100ns
+30729000ns
+29929200ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+29330200ns
+30866400ns
+28283900ns
+27917500ns
+28241400ns
+29708500ns
+27893600ns
+28305800ns
+28233300ns
+29684600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+30788900ns
+30543400ns
+30064800ns
+30503900ns
+29907900ns
+29951700ns
+30594700ns
+31329900ns
+30368200ns
+29990600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29456900ns
+28862300ns
+29069200ns
+29041100ns
+29049800ns
+29905200ns
+29044000ns
+29156200ns
+29331500ns
+28776100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30461200ns
+28112600ns
+27551400ns
+27453800ns
+27848500ns
+28438300ns
+27879200ns
+27876800ns
+27747800ns
+27950000ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+27409700ns
+26634300ns
+27820500ns
+26994900ns
+25744900ns
+25958800ns
+25662000ns
+25535800ns
+25470200ns
+25763200ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28441500ns
+28360100ns
+27713300ns
+27780000ns
+27665700ns
+27746600ns
+27904000ns
+27766600ns
+27473400ns
+27797600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27033200ns
+26316900ns
+25806800ns
+25906700ns
+25896800ns
+25779800ns
+27166700ns
+26097200ns
+26111100ns
+25791500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n10
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30173200ns
+28732900ns
+28891400ns
+28501500ns
+29626600ns
+30495900ns
+30389900ns
+30300100ns
+29800700ns
+30041500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+31085400ns
+29801900ns
+30950800ns
+30742200ns
+29830300ns
+30483400ns
+30462700ns
+30392400ns
+29490100ns
+29983300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+31731500ns
+30441800ns
+30002600ns
+31508000ns
+30361800ns
+30024300ns
+30439500ns
+30678400ns
+30318300ns
+29574800ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+32144400ns
+31131100ns
+31213100ns
+35112500ns
+35229800ns
+33636800ns
+34123800ns
+32352800ns
+33856300ns
+31868000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N4
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29396400ns
+32571000ns
+28802800ns
+29161300ns
+28977200ns
+28961500ns
+30366000ns
+31344200ns
+30200600ns
+30159500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+30472000ns
+32518100ns
+35287900ns
+31973900ns
+33133200ns
+30303300ns
+28514300ns
+28088800ns
+27638600ns
+26088100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28691700ns
+27907700ns
+27730800ns
+28318100ns
+27572900ns
+28195400ns
+27694900ns
+27802100ns
+27535900ns
+27798200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26503400ns
+26331500ns
+27781900ns
+28031700ns
+28184700ns
+27124600ns
+27104800ns
+28147100ns
+27542100ns
+27186400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29988000ns
+28158300ns
+27345500ns
+26926700ns
+27444200ns
+28086500ns
+28630400ns
+28052600ns
+27748300ns
+27768600ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26599500ns
+25478600ns
+25961200ns
+25718300ns
+25493500ns
+26589300ns
+25910700ns
+25617900ns
+25448800ns
+27135600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28794500ns
+27436700ns
+27397900ns
+27523700ns
+27343500ns
+26984000ns
+27137300ns
+27214600ns
+27216100ns
+27217300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27216400ns
+25823700ns
+25628400ns
+26156500ns
+26183300ns
+25753800ns
+26479400ns
+26805800ns
+26534200ns
+26779700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30715500ns
+27176600ns
+28956100ns
+28037500ns
+27566100ns
+27337400ns
+27583600ns
+28786800ns
+28806300ns
+28016600ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26186400ns
+26036400ns
+26103800ns
+25817300ns
+26245300ns
+27074200ns
+26148400ns
+25423300ns
+26103100ns
+25542500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29330800ns
+27339600ns
+27840800ns
+27962100ns
+27820400ns
+27881500ns
+27807800ns
+27157400ns
+28129000ns
+27808500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26978300ns
+25842200ns
+26163100ns
+26465100ns
+26608800ns
+27207400ns
+26695900ns
+26453600ns
+26335500ns
+26261100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29796000ns
+29133500ns
+30025500ns
+28906500ns
+28909100ns
+29283900ns
+29256900ns
+29500200ns
+30086500ns
+29951400ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+29868400ns
+28946300ns
+29425300ns
+28284100ns
+28195700ns
+28400600ns
+28893700ns
+27991000ns
+29823500ns
+28947900ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+30893200ns
+29594600ns
+29509600ns
+29549600ns
+29506300ns
+29438800ns
+29828900ns
+29532700ns
+29522900ns
+29589400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+30120800ns
+29042200ns
+29214800ns
+30148400ns
+29171600ns
+29178100ns
+29365200ns
+29110600ns
+29048400ns
+29666100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29586800ns
+26949800ns
+27798600ns
+27532900ns
+27179200ns
+27611300ns
+27740400ns
+28872300ns
+27504500ns
+28230200ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26562200ns
+25492200ns
+25356600ns
+25356600ns
+25301600ns
+25615900ns
+25039400ns
+25258800ns
+27376600ns
+26395300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28350800ns
+27218100ns
+27663800ns
+27451100ns
+27506900ns
+27221500ns
+27556300ns
+27803100ns
+27371200ns
+27626000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26594600ns
+25802900ns
+25761000ns
+25694000ns
+25848600ns
+25572900ns
+26454500ns
+25736500ns
+25674600ns
+25808000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29530000ns
+28993600ns
+28543200ns
+28865700ns
+28762400ns
+29865700ns
+32468600ns
+32581500ns
+31689000ns
+30500300ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+29734600ns
+29261500ns
+30947800ns
+31001500ns
+28851900ns
+29347700ns
+30101800ns
+28950900ns
+28675500ns
+30115700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+30843300ns
+29757700ns
+29365600ns
+29852700ns
+29607000ns
+29704000ns
+32714600ns
+31879300ns
+29838200ns
+29716000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+31608500ns
+29826500ns
+29753600ns
+29923900ns
+29256800ns
+29599900ns
+29240400ns
+29525000ns
+29710100ns
+30303600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29809100ns
+28092900ns
+29343300ns
+27711200ns
+27883600ns
+27300400ns
+28177400ns
+27550800ns
+27535100ns
+28276100ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+27142100ns
+25975200ns
+25797300ns
+25289600ns
+25536100ns
+25830200ns
+26385200ns
+25696700ns
+25465500ns
+25827700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28253400ns
+28228800ns
+27630300ns
+27560600ns
+27365500ns
+27789300ns
+27521100ns
+27822100ns
+27453500ns
+27230300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27548300ns
+27434800ns
+27101100ns
+25903900ns
+26086000ns
+25821600ns
+25868700ns
+25824200ns
+26037600ns
+25791400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+38122500ns
+36039700ns
+36891900ns
+36274600ns
+35969400ns
+36080500ns
+35960800ns
+36637700ns
+37444400ns
+36900500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+38737800ns
+38557500ns
+39524900ns
+38600400ns
+38091500ns
+38743800ns
+37908400ns
+40294100ns
+40712000ns
+37362200ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+38869200ns
+37253500ns
+37872900ns
+39743500ns
+40617700ns
+39113100ns
+37860700ns
+38336800ns
+37400400ns
+39738900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+45450600ns
+45482000ns
+45573600ns
+47827400ns
+44995000ns
+45758300ns
+45122100ns
+47228400ns
+45629900ns
+45416600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n1
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+39482100ns
+34847000ns
+35013300ns
+34880700ns
+34514400ns
+34356400ns
+34980300ns
+35181600ns
+34288100ns
+34470300ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+36092600ns
+35047500ns
+34330100ns
+33767300ns
+35415200ns
+34531200ns
+33991300ns
+35032600ns
+34394600ns
+34030300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+36178800ns
+34728900ns
+34973900ns
+35726400ns
+36986600ns
+35735600ns
+35527300ns
+35484600ns
+35973600ns
+35814600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+43019800ns
+40773900ns
+41483700ns
+42056000ns
+41110900ns
+40490000ns
+41172800ns
+40856600ns
+39947700ns
+40600600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+29843800ns
+28831800ns
+28995400ns
+29276500ns
+29044200ns
+29460600ns
+30369000ns
+30183700ns
+32358300ns
+31873300ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+29587700ns
+28604100ns
+28848700ns
+28351500ns
+28210100ns
+28235600ns
+28513000ns
+28729000ns
+28548700ns
+28139800ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+31237200ns
+30462900ns
+29917500ns
+29820100ns
+30505900ns
+32290600ns
+31814300ns
+30086400ns
+31732300ns
+30033600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29714600ns
+29290000ns
+29903700ns
+29164700ns
+29049000ns
+29229200ns
+29068900ns
+28885100ns
+29299100ns
+29765600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30196100ns
+27612400ns
+28192000ns
+27460400ns
+27540400ns
+27561600ns
+27880700ns
+28008500ns
+29506500ns
+28216500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26768300ns
+26796800ns
+25501900ns
+25333200ns
+25516000ns
+25589500ns
+25507800ns
+25820400ns
+25508700ns
+25620500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28001200ns
+27740000ns
+27443100ns
+27541200ns
+27273600ns
+27626800ns
+27197700ns
+27385100ns
+27484100ns
+27412400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27504900ns
+26479400ns
+26660900ns
+26515000ns
+26617700ns
+26518200ns
+26591300ns
+26494400ns
+26406000ns
+26663800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30127500ns
+27529000ns
+28045600ns
+27731800ns
+27591000ns
+27984800ns
+27755200ns
+27199900ns
+27501000ns
+27867300ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26441600ns
+25437300ns
+25575800ns
+25719300ns
+25718800ns
+25288300ns
+25120900ns
+25523300ns
+25086100ns
+25241500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28138500ns
+28074400ns
+27425400ns
+27614500ns
+27413000ns
+27369300ns
+27428200ns
+27588100ns
+27899700ns
+27569300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26599300ns
+26187600ns
+26120700ns
+25622900ns
+26352700ns
+25517300ns
+25623400ns
+26094500ns
+26490500ns
+25738500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+L0 N2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+30327800ns
+27800400ns
+28490600ns
+28439200ns
+28202200ns
+28052900ns
+28152000ns
+28578600ns
+27941500ns
+28775400ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+26465800ns
+26019700ns
+25829700ns
+25412600ns
+25542700ns
+25357300ns
+25681800ns
+25984000ns
+25385800ns
+25474500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27779400ns
+28244600ns
+27801400ns
+27963200ns
+27841800ns
+27661700ns
+27785900ns
+27704000ns
+27849800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l1 n2 m0 1gb 1mb
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+219472800ns
+218709900ns
+219298900ns
+219087200ns
+217654300ns
+219386900ns
+220952600ns
+219206400ns
+217938800ns
+219358600ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+202256900ns
+201298900ns
+199544300ns
+201688100ns
+200362100ns
+201250100ns
+199934800ns
+200047800ns
+200768300ns
+201169100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+220908100ns
+222427000ns
+218602300ns
+219911700ns
+218829600ns
+221383900ns
+224686600ns
+232027500ns
+224387000ns
+218436800ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+208964000ns
+205702200ns
+206357200ns
+206128800ns
+208854200ns
+207838000ns
+207320400ns
+205884400ns
+205549200ns
+209046100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+same as before
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+219367300ns
+217367800ns
+218575800ns
+220527200ns
+217731700ns
+218686800ns
+217943500ns
+218389300ns
+220732600ns
+223982000ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+201522600ns
+200113200ns
+200385100ns
+199210600ns
+200635700ns
+202543000ns
+201104200ns
+199498300ns
+202783300ns
+200229100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+221657000ns
+217233100ns
+216709200ns
+217579400ns
+217117900ns
+219135300ns
+216608800ns
+218256200ns
+217770700ns
+218079000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+206935700ns
+207214900ns
+213247600ns
+215121600ns
+215816700ns
+213602200ns
+217569700ns
+229585200ns
+212826200ns
+256998200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+same as before
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+219895700ns
+222444900ns
+220297100ns
+220317700ns
+220521200ns
+222246100ns
+222639400ns
+222355100ns
+220386800ns
+219258900ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+204460200ns
+202570500ns
+201312700ns
+202068500ns
+200508700ns
+203968900ns
+202206500ns
+201795000ns
+201344900ns
+201401000ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+225990700ns
+220869900ns
+219807600ns
+221416600ns
+220846800ns
+224752300ns
+217664200ns
+219855900ns
+218846800ns
+224995000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+215566800ns
+209558800ns
+209181200ns
+207001900ns
+214240600ns
+208334600ns
+208912100ns
+208189900ns
+209223200ns
+211895500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4 gig
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+223088700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4 gigs
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+948806400ns
+931764900ns
+902948500ns
+885875000ns
+885875900ns
+882809800ns
+884425600ns
+895658500ns
+904311600ns
+887921700ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+817154300ns
+816494500ns
+813534400ns
+813471200ns
+818670200ns
+817657500ns
+820786600ns
+821898400ns
+810726300ns
+813172100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+886063800ns
+883999700ns
+890083900ns
+891245900ns
+883176500ns
+888806400ns
+888350200ns
+912014000ns
+895737800ns
+889258900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+855783600ns
+857532900ns
+883602100ns
+844135500ns
+844049800ns
+842860900ns
+823527600ns
+841561200ns
+843434000ns
+841399100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kb
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+918218300ns
+920573700ns
+923887100ns
+952161700ns
+905784400ns
+895539900ns
+910487000ns
+966019700ns
+979204400ns
+987262400ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+952335700ns
+952185100ns
+946324800ns
+948596400ns
+958266800ns
+948206500ns
+945191000ns
+951724200ns
+943164400ns
+942610000ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+953669500ns
+951031000ns
+968554700ns
+950315600ns
+971905400ns
+962164400ns
+961124800ns
+960424600ns
+965285300ns
+998885400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1000441200ns
+1006105300ns
+988191200ns
+982665900ns
+983395300ns
+982291800ns
+993286400ns
+981447700ns
+983984400ns
+993268700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kg
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+965245800ns
+961401000ns
+976834600ns
+984817400ns
+977716000ns
+982291400ns
+981127000ns
+985816000ns
+946418400ns
+915912500ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+876763900ns
+876154000ns
+865313600ns
+871444400ns
+866128400ns
+862746500ns
+863159300ns
+941667400ns
+948087900ns
+944867700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+958532500ns
+970052600ns
+954462800ns
+959865800ns
+959687700ns
+958552900ns
+953156300ns
+973234300ns
+956385300ns
+954874200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1004482500ns
+1008734900ns
+1067317300ns
+1090788700ns
+1077579200ns
+1034199400ns
+1017935000ns
+1008737000ns
+985035700ns
+990720900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+massive lbock
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+1135448400ns
+1125506500ns
+1127544100ns
+1203951500ns
+961059800ns
+890690100ns
+865735500ns
+859522700ns
+876041100ns
+862710900ns
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+873735800ns
+888499900ns
+880515300ns
+868673100ns
+886558800ns
+863843800ns
+872659600ns
+906257300ns
+885976700ns
+933300400ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+829022200ns
+817966700ns
+835219500ns
+829173800ns
+832640000ns
+820588900ns
+812741600ns
+813138300ns
+815813500ns
+819355200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+883789600ns
+870588100ns
+887684100ns
+880030900ns
+924983700ns
+899528800ns
+910283500ns
+907914300ns
+898317100ns
+881689400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+815909300ns
+813362400ns
+812305400ns
+814010900ns
+815418200ns
+820449700ns
+819156200ns
+839166400ns
+844719200ns
+877834800ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+846345100ns
+817300200ns
+812579300ns
+816982700ns
+825433600ns
+822343500ns
+818796200ns
+815932300ns
+815606200ns
+819058400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+888283000ns
+879937300ns
+882953100ns
+892172800ns
+906967500ns
+891861300ns
+896268900ns
+891190500ns
+884475900ns
+882473000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 30byte producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+203706700ns
+207931700ns
+209343200ns
+203392800ns
+208835800ns
+204361000ns
+213435500ns
+211057100ns
+217716600ns
+228597500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+233699100ns
+220443200ns
+201534500ns
+205848700ns
+203315400ns
+212333300ns
+203407200ns
+202862000ns
+204728300ns
+202491600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+229313100ns
+217345800ns
+219101800ns
+220828100ns
+220254600ns
+229085200ns
+220706100ns
+218936300ns
+218079100ns
+228231600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+neqw
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+208111900ns
+219532100ns
+236740600ns
+232239000ns
+260938200ns
+249101100ns
+238769000ns
+244309700ns
+231686300ns
+269632600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+268187800ns
+224696500ns
+225866900ns
+225555900ns
+222440000ns
+230975100ns
+229362400ns
+221980500ns
+220813900ns
+231442100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+235634600ns
+234053000ns
+242906400ns
+241985100ns
+234437800ns
+234086100ns
+231984300ns
+232709000ns
+243404600ns
+238237900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+204765900ns
+201028300ns
+206738400ns
+203626500ns
+204923800ns
+204504800ns
+201498700ns
+204884500ns
+203301800ns
+202942900ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+203336200ns
+201371600ns
+204354800ns
+203322800ns
+205252100ns
+204771100ns
+202181300ns
+206706600ns
+202373000ns
+205537300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+218254000ns
+219403000ns
+218640800ns
+217263600ns
+219833500ns
+223838400ns
+225829900ns
+225151000ns
+230977400ns
+228627200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+das
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+223392000ns
+228999100ns
+226621600ns
+239152700ns
+246836900ns
+228087200ns
+226651100ns
+237592300ns
+227090600ns
+227787600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+224150200ns
+224015800ns
+228375900ns
+227965100ns
+246168500ns
+221509900ns
+228276500ns
+211538300ns
+201109000ns
+202746700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+212775800ns
+218887500ns
+213693500ns
+214709200ns
+213752000ns
+215416400ns
+216360300ns
+215057100ns
+221001300ns
+222475800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+wqeqe
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+207101100ns
+199667600ns
+202615300ns
+203313900ns
+201170100ns
+204730600ns
+200872800ns
+206696500ns
+211968000ns
+207437500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+209249000ns
+199153600ns
+201426800ns
+199591000ns
+201676800ns
+206778700ns
+198901600ns
+200509300ns
+197995200ns
+200757900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+219756400ns
+214083000ns
+215059300ns
+213310500ns
+217779700ns
+217527000ns
+213596300ns
+216922700ns
+214491800ns
+220597400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+hkgjh
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+203835500ns
+198729900ns
+202840000ns
+200639700ns
+199463500ns
+199370800ns
+200412900ns
+217425600ns
+206503600ns
+207521100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+219498800ns
+208105400ns
+208484000ns
+199775900ns
+201837300ns
+200474000ns
+203884900ns
+201084500ns
+196796800ns
+202341100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+213547100ns
+217111600ns
+212585000ns
+212294000ns
+213672000ns
+213782600ns
+217123200ns
+213354900ns
+214894900ns
+212718600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+aslkdjsaklj
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+197476000ns
+197315800ns
+197314800ns
+200591200ns
+202348500ns
+201484900ns
+202726300ns
+206213000ns
+210989200ns
+208089000ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+198330600ns
+198535500ns
+198830100ns
+204364900ns
+205558000ns
+227288800ns
+204466400ns
+203242200ns
+202992100ns
+209993400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+216474300ns
+219950800ns
+218328000ns
+221518700ns
+217778900ns
+214459500ns
+214957200ns
+221082000ns
+217614500ns
+216578300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+gfd
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+213213
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+203621900ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+201999300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+214130500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadhsahdsjka
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+228415100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+224277200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+238271900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+akjshdka
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+230392600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+226525000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+235088900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kgj
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+202111800ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+203209600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+212085100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdas
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+202613300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+208615200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+235395200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sadsada
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+201331100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+204207100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+226726700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+201043600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+202335900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+214487100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sdasda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+200894400ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+197006300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+214376400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kjhsda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+881290100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+884206400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+942616800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+jghkjgh
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+810821300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+800698300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+863928200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kjhdksahjkdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+811214300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+799606200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+859588200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsaldska;
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+816331200ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+803765000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+865623000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+lsjadlsjalda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+943371600ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+917371700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+963169300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dasdosaydksah
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+821123700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+811584600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+912647200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sakdhsak
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+827323000ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+817042800ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+882270100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+lhdsla
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+1088408300ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1068940000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1055798900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+adsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+846462100ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+920113900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+920437500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+846253700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+899275400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+926044200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+adsadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+799218900ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+786786800ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+853662300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsads
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+799216500ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+797704000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+860637000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+jhskjahdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+3681661400ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3316756900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3514451600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sdasd
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+3257743200ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3210382000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3458206800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+khk
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+3244919700ns
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3263172200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+3443330800ns

@@ -1,6 +1,1431 @@
-_mm256_storeu_si256
-Average Time: 50016610ns || 0.0500166s
-Average speed: 2.49917GB/s
-_mm256_storeu_si256
-Average Time: 39308670ns || 0.0393087s
-Average speed: 3.17996GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0408999s
+Average Speed: 3.05624GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.042599s
+Average Speed: 2.93434GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0421787s
+Average Speed: 2.96358GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0489318s
+Average Speed: 2.55457GB/s
+
+
+Total Average Speed: 2.86353GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0351794s
+Average Speed: 3.55321GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0344318s
+Average Speed: 3.63036GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0356393s
+Average Speed: 3.50737GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0423736s
+Average Speed: 2.94995GB/s
+
+
+Total Average Speed: 3.38698GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+2mb blocks
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0375144s
+Average Speed: 3.33206GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0377028s
+Average Speed: 3.3154GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0375704s
+Average Speed: 3.32708GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.044752s
+Average Speed: 2.79317GB/s
+
+
+Total Average Speed: 3.1738GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb block
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0350646s
+Average Speed: 3.56485GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0342069s
+Average Speed: 3.65423GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0356931s
+Average Speed: 3.50207GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0414461s
+Average Speed: 3.01597GB/s
+
+
+Total Average Speed: 3.41505GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kb block
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0367723s
+Average Speed: 3.3993GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0378086s
+Average Speed: 3.30613GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0383748s
+Average Speed: 3.25734GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.045212s
+Average Speed: 2.76475GB/s
+
+
+Total Average Speed: 3.1612GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1mb L1 M0 N1
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0347174s
+Average Speed: 3.6005GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0340934s
+Average Speed: 3.66639GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0345788s
+Average Speed: 3.61493GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0408387s
+Average Speed: 3.06082GB/s
+
+
+Total Average Speed: 3.46673GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0302326s
+Average Speed: 4.13462GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0288465s
+Average Speed: 4.33328GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0304044s
+Average Speed: 4.11125GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0291692s
+Average Speed: 4.28534GB/s
+
+
+Total Average Speed: 4.21398GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.028132s
+Average Speed: 4.44334GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0262994s
+Average Speed: 4.75295GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0278649s
+Average Speed: 4.48593GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0261907s
+Average Speed: 4.77269GB/s
+
+
+Total Average Speed: 4.60885GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n10
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0296954s
+Average Speed: 4.20941GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0303222s
+Average Speed: 4.12239GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0305081s
+Average Speed: 4.09727GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0330669s
+Average Speed: 3.78022GB/s
+
+
+Total Average Speed: 4.04555GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N4
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0299941s
+Average Speed: 4.16749GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0304018s
+Average Speed: 4.1116GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0279248s
+Average Speed: 4.47631GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0273938s
+Average Speed: 4.56307GB/s
+
+
+Total Average Speed: 4.32098GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0280149s
+Average Speed: 4.46191GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0259953s
+Average Speed: 4.80855GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0274266s
+Average Speed: 4.55763GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0263361s
+Average Speed: 4.74633GB/s
+
+
+Total Average Speed: 4.63938GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0282983s
+Average Speed: 4.41723GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0260681s
+Average Speed: 4.79514GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0279078s
+Average Speed: 4.47904GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0265011s
+Average Speed: 4.71679GB/s
+
+
+Total Average Speed: 4.59664GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0294849s
+Average Speed: 4.23945GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0288777s
+Average Speed: 4.32861GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0296966s
+Average Speed: 4.20924GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0294066s
+Average Speed: 4.25074GB/s
+
+
+Total Average Speed: 4.25656GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N5
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0279006s
+Average Speed: 4.48019GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0257755s
+Average Speed: 4.84956GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0275769s
+Average Speed: 4.53278GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0258948s
+Average Speed: 4.82723GB/s
+
+
+Total Average Speed: 4.66645GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.03018s
+Average Speed: 4.14182GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0296989s
+Average Speed: 4.20891GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0303278s
+Average Speed: 4.12163GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0298748s
+Average Speed: 4.18412GB/s
+
+
+Total Average Speed: 4.16384GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N6
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.028168s
+Average Speed: 4.43766GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0258946s
+Average Speed: 4.82727GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0276855s
+Average Speed: 4.515GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0263418s
+Average Speed: 4.74532GB/s
+
+
+Total Average Speed: 4.62578GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+N
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0366322s
+Average Speed: 3.4123GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0388533s
+Average Speed: 3.21723GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0386807s
+Average Speed: 3.23159GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0458484s
+Average Speed: 2.72638GB/s
+
+
+Total Average Speed: 3.12472GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n1
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0352014s
+Average Speed: 3.55099GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0346633s
+Average Speed: 3.60612GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.035713s
+Average Speed: 3.50012GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0411512s
+Average Speed: 3.03758GB/s
+
+
+Total Average Speed: 3.40764GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0300237s
+Average Speed: 4.16338GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0285768s
+Average Speed: 4.37417GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0307901s
+Average Speed: 4.05975GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.029337s
+Average Speed: 4.26083GB/s
+
+
+Total Average Speed: 4.21132GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0282175s
+Average Speed: 4.42987GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0257963s
+Average Speed: 4.84565GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0275105s
+Average Speed: 4.54372GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0266452s
+Average Speed: 4.69128GB/s
+
+
+Total Average Speed: 4.62238GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+n2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0279333s
+Average Speed: 4.47494GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0255153s
+Average Speed: 4.89902GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.027652s
+Average Speed: 4.52046GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0260347s
+Average Speed: 4.80128GB/s
+
+
+Total Average Speed: 4.66699GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+L0 N2
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0284761s
+Average Speed: 4.38965GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0257154s
+Average Speed: 4.8609GB/s
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l1 n2 m0 1gb 1mb
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.219107s
+Average Speed: 4.56399GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.200832s
+Average Speed: 4.97929GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.22216s
+Average Speed: 4.50126GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.207164s
+Average Speed: 4.82708GB/s
+
+
+Total Average Speed: 4.70997GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+same as before
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.21933s
+Average Speed: 4.55933GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.200803s
+Average Speed: 4.98002GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.218015s
+Average Speed: 4.58685GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.218892s
+Average Speed: 4.56847GB/s
+
+
+Total Average Speed: 4.66723GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+same as before
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.221036s
+Average Speed: 4.52414GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.202164s
+Average Speed: 4.94649GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.221505s
+Average Speed: 4.51458GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.21021s
+Average Speed: 4.75714GB/s
+
+
+Total Average Speed: 4.67883GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4 gig
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4 gigs
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.90104s
+Average Speed: 4.43932GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.816357s
+Average Speed: 4.89982GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.890874s
+Average Speed: 4.48997GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.847789s
+Average Speed: 4.71816GB/s
+
+
+Total Average Speed: 4.62955GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kb
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.935914s
+Average Speed: 4.2739GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.94886s
+Average Speed: 4.21558GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.964336s
+Average Speed: 4.14793GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.989508s
+Average Speed: 4.04241GB/s
+
+
+Total Average Speed: 4.16817GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+512 kg
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.967758s
+Average Speed: 4.13326GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.891633s
+Average Speed: 4.48615GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.95988s
+Average Speed: 4.16719GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 1.02855s
+Average Speed: 3.88896GB/s
+
+
+Total Average Speed: 4.15819GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+massive lbock
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.990821s
+Average Speed: 4.03706GB/s
+
+
+memset 1mb producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.886002s
+Average Speed: 4.51466GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.822566s
+Average Speed: 4.86283GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.894481s
+Average Speed: 4.47187GB/s
+
+
+Total Average Speed: 4.45203GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.827233s
+Average Speed: 4.8354GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.821038s
+Average Speed: 4.87188GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.889658s
+Average Speed: 4.49611GB/s
+
+
+Total Average Speed: 4.72826GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+new
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.210838s
+Average Speed: 4.74298GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.209066s
+Average Speed: 4.78317GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.222188s
+Average Speed: 4.50069GB/s
+
+
+Total Average Speed: 4.67223GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+neqw
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.239106s
+Average Speed: 4.18224GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.230132s
+Average Speed: 4.34533GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.236944s
+Average Speed: 4.22041GB/s
+
+
+Total Average Speed: 4.2482GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.203822s
+Average Speed: 4.90625GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.203921s
+Average Speed: 4.90387GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.222782s
+Average Speed: 4.4887GB/s
+
+
+Total Average Speed: 4.75795GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+das
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.231221s
+Average Speed: 4.32486GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.221586s
+Average Speed: 4.51293GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.216413s
+Average Speed: 4.6208GB/s
+
+
+Total Average Speed: 4.48283GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+wqeqe
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.204557s
+Average Speed: 4.8886GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.201604s
+Average Speed: 4.96022GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.216312s
+Average Speed: 4.62294GB/s
+
+
+Total Average Speed: 4.81948GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+hkgjh
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.203674s
+Average Speed: 4.9098GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.204228s
+Average Speed: 4.89648GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.214108s
+Average Speed: 4.67053GB/s
+
+
+Total Average Speed: 4.82307GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+aslkdjsaklj
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.202455s
+Average Speed: 4.93937GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.20536s
+Average Speed: 4.86949GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.217874s
+Average Speed: 4.5898GB/s
+
+
+Total Average Speed: 4.79471GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdsa
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+gfd
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+213213
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0203622s
+Average Speed: 49.1106GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0201999s
+Average Speed: 49.5051GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.021413s
+Average Speed: 46.7005GB/s
+
+
+Total Average Speed: 48.4065GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadhsahdsjka
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0228415s
+Average Speed: 43.7799GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0224277s
+Average Speed: 44.5877GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.0238272s
+Average Speed: 41.9689GB/s
+
+
+Total Average Speed: 43.4176GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+akjshdka
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.230393s
+Average Speed: 4.34042GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.226525s
+Average Speed: 4.41452GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.235089s
+Average Speed: 4.25371GB/s
+
+
+Total Average Speed: 4.33522GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kgj
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.202112s
+Average Speed: 4.94776GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.20321s
+Average Speed: 4.92103GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.212085s
+Average Speed: 4.71509GB/s
+
+
+Total Average Speed: 4.85904GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdas
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.202613s
+Average Speed: 4.93551GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.208615s
+Average Speed: 4.79351GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.235395s
+Average Speed: 4.24817GB/s
+
+
+Total Average Speed: 4.63948GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sadsada
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.201331s
+Average Speed: 4.96694GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.204207s
+Average Speed: 4.89699GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.226727s
+Average Speed: 4.4106GB/s
+
+
+Total Average Speed: 4.74485GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.201044s
+Average Speed: 4.97405GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.202336s
+Average Speed: 4.94228GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.214487s
+Average Speed: 4.66229GB/s
+
+
+Total Average Speed: 4.85542GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sdasda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.200894s
+Average Speed: 4.97774GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.197006s
+Average Speed: 5.07598GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.214376s
+Average Speed: 4.66469GB/s
+
+
+Total Average Speed: 4.89974GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kjhsda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.88129s
+Average Speed: 4.5388GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.884206s
+Average Speed: 4.52383GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.942617s
+Average Speed: 4.24351GB/s
+
+
+Total Average Speed: 4.43113GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+jghkjgh
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.810821s
+Average Speed: 4.93327GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.800698s
+Average Speed: 4.99564GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.863928s
+Average Speed: 4.63001GB/s
+
+
+Total Average Speed: 4.84761GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+kjhdksahjkdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.811214s
+Average Speed: 4.93088GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.799606s
+Average Speed: 5.00246GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.859588s
+Average Speed: 4.65339GB/s
+
+
+Total Average Speed: 4.8575GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsaldska;
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.816331s
+Average Speed: 4.89997GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.803765s
+Average Speed: 4.97658GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.865623s
+Average Speed: 4.62095GB/s
+
+
+Total Average Speed: 4.82758GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+lsjadlsjalda
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.943372s
+Average Speed: 4.24011GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.917372s
+Average Speed: 4.36028GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.963169s
+Average Speed: 4.15296GB/s
+
+
+Total Average Speed: 4.24942GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dasdosaydksah
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.821124s
+Average Speed: 4.87137GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.811585s
+Average Speed: 4.92863GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.912647s
+Average Speed: 4.38285GB/s
+
+
+Total Average Speed: 4.71447GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sakdhsak
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.827323s
+Average Speed: 4.83487GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.817043s
+Average Speed: 4.8957GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.88227s
+Average Speed: 4.53376GB/s
+
+
+Total Average Speed: 4.7494GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+lhdsla
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 1.08841s
+Average Speed: 3.67509GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 1.06894s
+Average Speed: 3.74202GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 1.0558s
+Average Speed: 3.7886GB/s
+
+
+Total Average Speed: 3.73466GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+adsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.846462s
+Average Speed: 4.72555GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.920114s
+Average Speed: 4.34729GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.920438s
+Average Speed: 4.34576GB/s
+
+
+Total Average Speed: 4.46592GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.846254s
+Average Speed: 4.72671GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.899275s
+Average Speed: 4.44803GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.926044s
+Average Speed: 4.31945GB/s
+
+
+Total Average Speed: 4.49174GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+adsadsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.799219s
+Average Speed: 5.00489GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.786787s
+Average Speed: 5.08397GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.853662s
+Average Speed: 4.68569GB/s
+
+
+Total Average Speed: 4.9187GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+dsadsads
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.799216s
+Average Speed: 5.0049GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.797704s
+Average Speed: 5.01439GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.860637s
+Average Speed: 4.64772GB/s
+
+
+Total Average Speed: 4.8829GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+jhskjahdsa
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.68166s
+Average Speed: 4.34586GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.31676s
+Average Speed: 4.82399GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.51445s
+Average Speed: 4.55263GB/s
+
+
+Total Average Speed: 4.56583GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sdasd
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.25774s
+Average Speed: 4.91138GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.21038s
+Average Speed: 4.98383GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.45821s
+Average Speed: 4.62668GB/s
+
+
+Total Average Speed: 4.83562GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+khk
+memset 32byte producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.24492s
+Average Speed: 4.93078GB/s
+
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.26317s
+Average Speed: 4.9032GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 3.44333s
+Average Speed: 4.64666GB/s
+
+
+Total Average Speed: 4.82343GB/s
