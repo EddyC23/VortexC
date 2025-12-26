@@ -8,10 +8,8 @@ class Vortex {
 public:
 	
 	
-	struct Stream {
-		void (*consumer)(const void*);
-	};
-	Vortex(ULONGLONG STREAM_SIZE_POWER,ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned int N, void (*producer)(const void*,int ), void (*consumer)(const void*,int ));
+	
+	Vortex(ULONGLONG STREAM_SIZE_POWER,ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned int N, void (*producer)(void* const,int ), void (*consumer)(void* const, int));
 	~Vortex();
 	double getStreamSizeGB();
 	void start();
@@ -40,13 +38,13 @@ private:
 
 	
 
-	const void* bufWptr;
-	const void* bufRptr;
+	void* const bufWptr;
+	void* const bufRptr;
 	
 	std::counting_semaphore<> full;
 	std::counting_semaphore<> empty;
-	void (*producer)(const void*, int);
-	void (*consumer)(const void*, int);
+	void (*producer)(void* const, int);
+	void (*consumer)(void* const, int);
 	
 	std::map <ULONG_PTR, PULONG_PTR> offsetToPFN;
 
@@ -56,6 +54,6 @@ private:
 	BOOL EnableLockPriveleges(); // AI GENERATED
 	std::string GetLastErrorAsString(); // AI GENERATED
 
-
+	bool lastBlock;
 
 };

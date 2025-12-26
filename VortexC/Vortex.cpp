@@ -24,7 +24,16 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	if (isWriteFault) {
 		ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
 		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-		
+
+		std::cout << "WBlock: " << offsetBlock << "\n";
+		if (lastBlock) {
+			std::cout << offset << "\nThe Block afte rthe lastblock is\n" << offsetBlock;
+			std::cout << "ahhaa";
+		}
+		if (offsetBlock == 8191) {
+			std::cout << "asd\n";
+			lastBlock = true;
+		}
 		if (offsetBlock >= M+ N + L + 1) {
 			full.release();
 			empty.acquire();
@@ -50,7 +59,7 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	else {
 		ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
 		ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-		
+		std::cout << "RBlock: " << offsetBlock << "\n";
 		if (offsetBlock >= M + 1) {
 			empty.release();
 		}
@@ -62,21 +71,22 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 
 	return EXCEPTION_CONTINUE_EXECUTION;
 }
-Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned  int N, void (*producer)(const void*, int), void (*consumer)(const void*, int)) :
+Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned  int N, void (*producer)(void* const, int), void (*consumer)(void* const, int)) :
 	STREAM_SIZE_POWER{ STREAM_SIZE_POWER }, STREAM_SIZE_BYTES{ 1ULL << STREAM_SIZE_POWER }, STREAM_SIZE_GB{double(STREAM_SIZE_BYTES) / std::pow(2, 30)},
 	PAGE_POWER{12}, BLOCK_SIZE_PAGE_POWER{ BLOCK_SIZE_PAGE_POWER }, BLOCK_NUM_PAGES{ 1ULL << BLOCK_SIZE_PAGE_POWER }, BLOCK_SIZE_BYTES{ BLOCK_NUM_PAGES << PAGE_POWER }, PFNarray{ new ULONG_PTR[BLOCK_NUM_PAGES * (N + L + M + 1)]},
 	L{ L }, M{ M }, N{ N },
 	producer{ producer }, consumer{ consumer },
-	full{ 0 }, empty{  N + L  }
+	full{ 0 }, empty{  N + L  },
+	bufWptr{ VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE) }, bufRptr{ VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE) }
+
 
 {
 	
 	EnableLockPriveleges();
 	AddVectoredExceptionHandler(1, handler);
 
+	
 	instance = this;
-	bufWptr = VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
-	bufRptr = VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
 	ULONGLONG numPages = BLOCK_NUM_PAGES * (N + L + M + 1);
 	AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, PFNarray);
 	for (unsigned int i = 0; i < N + L + M  +  1;i++) {
@@ -93,9 +103,9 @@ Vortex::~Vortex() {
 void Vortex::start() {
 	instance = this;
 	std::thread produce(producer, bufWptr, STREAM_SIZE_POWER);
-	std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER);
+	//std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER);
 	produce.join();
-	consume.join();
+	//consume.join();
 	//std::cout << "Done.";
 }
 
@@ -120,8 +130,8 @@ void Vortex::reset() {
 }
 
 void Vortex::producer_done() {
-	instance->offsetToPFN;
-	for (unsigned int i = 0; i <instance->N + instance->L; i++) {
+	std::cout << "asd";
+	for (unsigned int i = 0; i <instance->N + instance->L + 5; i++) {
 		instance->full.release();
 	}
 		
