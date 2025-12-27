@@ -32,9 +32,10 @@ void producer2(void* const bufWptr, int streamSizePower) {
 	
 	ULONG_PTR i =0;
 	__m256i X = _mm256_set1_epi32(1);
-	
-	while (i < 1ULL << streamSizePower >> 5 << 21) {
-		_mm256_store_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 5 << 21)), X);
+	//std::cout << (1ULL << streamSizePower >> 5 << 21);
+	while (i < 1ULL << streamSizePower  >> 5) {
+		//std::cout << i << "\n";
+		_mm256_store_si256((__m256i*)((ULONG_PTR)bufWptr + (i  << 5)), X);
 		i++;
 	}
 	Vortex::producer_done();
@@ -44,8 +45,8 @@ void producer3(void* const bufWptr, int streamSizePower) {
 	ULONG_PTR i = 0;
 	__m256i X = _mm256_set1_epi32(1);
 
-	while (i < 1ULL << streamSizePower >> 5 << 21) {
-		_mm256_stream_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 5 << 21)), X);
+	while (i < 1ULL << streamSizePower   >> 5) {
+		_mm256_stream_si256((__m256i*)((ULONG_PTR)bufWptr + (i  << 5)), X);
 		i++;
 	}
 	Vortex::producer_done();
@@ -63,7 +64,7 @@ void consumer1(void* const bufRptr, int streamSizePower) {
 		sum = _mm256_add_epi32(sum, x);
 		i++;
 	}
-	std::cout << "done";
+	//std::cout << "done";
 
 } 
 
@@ -100,7 +101,7 @@ int main() {
 		ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
 		unsigned int L, M, N;
 
-		STREAM_SIZE_POWER = 27, BLOCK_SIZE_PAGE_POWER = 9;
+		STREAM_SIZE_POWER = 30, BLOCK_SIZE_PAGE_POWER = 9;
 		L = 1, M = 0, N = 2;
 
 
@@ -132,7 +133,7 @@ int main() {
 
 		};
 
-		size_t numTests = 1;
+		size_t numTests = 5;
 		ULONGLONG totalTime = 0;
 		ULONGLONG totalNumTests = vortexes.size() * numTests;
 

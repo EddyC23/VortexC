@@ -1986,3 +1986,364 @@ _mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 asd
 _mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asd
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1667200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+609600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+47788900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+43884700ns
+
+
+
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256
+WBlock: 256///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+k
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+44401500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+42266100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+k
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+1459600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+550200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+18242300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+10196000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+k
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+83892700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28771100ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+77138100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26309600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asd
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28505600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27532700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+79235400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27048200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+304900500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+331743300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+324326500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+286476700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+286557500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+278224800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+298922000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+276179200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+81893700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+80467400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+90000700ns
+88527100ns
+86328000ns
+90093400ns
+91653600ns
+92325300ns
+93308600ns
+90513400ns
+91580700ns
+89570900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+91163900ns
+95383400ns
+91306700ns
+88786000ns
+108246200ns
+101218000ns
+100329800ns
+102888200ns
+104293700ns
+94947600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28823700ns
+26153900ns
+26459100ns
+26510700ns
+26878100ns
+25830300ns
+26522200ns
+25643400ns
+26604200ns
+26357000ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26711000ns
+27243400ns
+27242000ns
+26829200ns
+27110800ns
+25720000ns
+26182400ns
+26239400ns
+26715100ns
+26306700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27934600ns
+25837800ns
+26442400ns
+25934100ns
+26161200ns
+26667000ns
+26268400ns
+26285500ns
+26425800ns
+26471100ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26958200ns
+26006100ns
+26388000ns
+25882000ns
+26040500ns
+26634100ns
+25801800ns
+25848800ns
+27212900ns
+26954300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+30005500ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+k
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29054600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+l
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28058900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+85828900ns
+85028600ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+89271500ns
+85769400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asd
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27958800ns
+25953300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26565900ns
+26267000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28513700ns
+27232200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26720300ns
+26587700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+28298800ns
+25901400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26515100ns
+25909300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29051400ns
+26384700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26821300ns
+26432000ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+27375800ns
+25917400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26285500ns
+25671300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29725300ns
+26642400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26436900ns
+27245300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+29157300ns
+25616900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+26416500ns
+25904900ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+939700ns
+164500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+278500ns
+106300ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+79180000ns
+84031400ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+68958500ns
+67581700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+78708000ns
+71802900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+68222700ns
+65463800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+69861500ns
+72719500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+72371600ns
+64917700ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+196142000ns
+193053800ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+197350200ns
+193297800ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+194693100ns
+192875300ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+194119000ns
+193584200ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+194451900ns
+190330700ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+192791800ns
+192357600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+210746100ns
+215940500ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+226822300ns
+226803400ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+201738500ns
+204478900ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+219121500ns
+220340600ns
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+215590100ns
+213673300ns
+213898900ns
+214008900ns
+214049200ns
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+223949900ns
+229064300ns
+229399000ns
+228137000ns
+226335600ns
