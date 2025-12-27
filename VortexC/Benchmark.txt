@@ -2218,3 +2218,105 @@ Average Speed: 4.39798GB/s
 
 
 Total Average Speed: 4.52877GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+a
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.227283s
+Average Speed: 4.3998GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.219245s
+Average Speed: 4.5611GB/s
+
+
+Total Average Speed: 4.479GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asd
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.275954s
+Average Speed: 3.62379GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.280802s
+Average Speed: 3.56123GB/s
+
+
+Total Average Speed: 3.59224GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+asd
+_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.216417s
+Average Speed: 4.62072GB/s
+
+
+_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer
+
+Average Time: 0.220504s
+Average Speed: 4.53506GB/s
+
+
+Total Average Speed: 4.57749GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1
+
+Average Time: 0.0899364s
+Average Speed: 11.119GB/s
+
+
+2
+
+Average Time: 0.128247s
+Average Speed: 7.79745GB/s
+
+
+Total Average Speed: 9.1666GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1
+
+Average Time: 0.02733s
+Average Speed: 36.5898GB/s
+
+
+2
+
+Average Time: 0.0700458s
+Average Speed: 14.2764GB/s
+
+
+Total Average Speed: 20.539GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1
+
+Average Time: 0.204824s
+Average Speed: 4.88225GB/s
+
+
+2
+
+Average Time: 0.219548s
+Average Speed: 4.55482GB/s
+
+
+Total Average Speed: 4.71286GB/s
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1
+
+Average Time: 0.20575s
+Average Speed: 4.86026GB/s
+
+
+2
+
+Average Time: 0.216961s
+Average Speed: 4.60912GB/s
+
+
+Total Average Speed: 4.73136GB/s

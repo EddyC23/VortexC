@@ -20,13 +20,13 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
 	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
-	bool writeTest = false;
+	bool readWriteTest = false; //SET THIS TO TRUE FOR TESTING ONLY EITHER THE PRODUCER OR CONSUMER
 	if (isWriteFault) {
-		if (writeTest) {
+		if (readWriteTest) {
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
 			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
 			
-			//std::cout << "WBlock: " << offsetBlock << "\n";
+			
 			if (offsetBlock >= M + N + L + 1) {
 				
 				
@@ -53,8 +53,6 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
 			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
 
-			//std::cout << "WBlock: " << offsetBlock << "\n";
-
 			if (offsetBlock >= M + N + L + 1) {
 				full.release();
 				empty.acquire();
@@ -79,10 +77,9 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 		}
 	}
 	else {
-		if(writeTest){
+		if(readWriteTest){
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
 			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-			//std::cout << "RBlock: " << offsetBlock << "\n";
 			
 			if (offsetBlock >= L + M + N + 1) {
 				offsetToPFN[offsetBlock] = offsetToPFN[offsetBlock - (L + M + N + 1)];
@@ -99,7 +96,7 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 		else {
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
 			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-			//std::cout << "RBlock: " << offsetBlock << "\n";
+			
 			if (offsetBlock >= M + 1) {
 				empty.release();
 			}
@@ -141,20 +138,20 @@ Vortex::~Vortex() {
 }
 
 void Vortex::start() {
-	instance = this;
+	instance = this;  
+	//IF TESTING ONLY ONE OF THEM COMMENT OUT std::thread produce(producer, bufWptr, STREAM_SIZE_POWER); produce.join(); or std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER); consume.join();
 	std::thread produce(producer, bufWptr, STREAM_SIZE_POWER);
 	std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER);
 	produce.join();
 	consume.join();
-	//std::cout << "Done.";
+	
 }
 
 void Vortex::reset() {
 	
 	lastConsUnmap = 0;
 	
-	MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL);
-	//why did i need to add this unmap for purely testing producer shouldmt a mew ruim kist override it
+	MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL); // added for testing remove when done
 	MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL);
 
 	while(full.try_acquire()){}
@@ -173,7 +170,7 @@ void Vortex::reset() {
 }
 
 void Vortex::producer_done() {
-	//std::cout << "asd";
+	
 	for (unsigned int i = 0; i <instance->N + instance->L + 5; i++) {
 		instance->full.release();
 	}

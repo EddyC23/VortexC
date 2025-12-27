@@ -6,40 +6,49 @@
 #include <semaphore>
 #include <map>
 #include <fstream>
-//void consumer0(void* const bufRptr, int streamSizePower) {
-//	ULONG_PTR i = 0;
-//
-//	long long sum = 0;
-//	while (i < 1ULL << streamSizePower >> 2) {
-//		sum += ((int*)bufRptr)[i];
-//		i++;
-//	}
-//}
 
 
-//doesnt work/ crashes?
 
+//PRODUCE ONLY FIRST 32BYTES OF EVERY BLOCK WITH STORE
+void producer0(void* const bufWptr, int streamSizePower) {
 
-//void producer1(void* const bufWptr, int streamSizePower) {
-//	
-//	memset(bufWptr, 55, (1ULL << streamSizePower));
-//	
-//	Vortex::producer_done();
-//	std::cout << "Done";
-//}
+	ULONG_PTR i = 0;
+	__m256i X = _mm256_set1_epi32(1);
 
+	while (i < 1ULL << streamSizePower >> 21) {
+		_mm256_store_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 21)), X);
+		i++;
+	}
+	Vortex::producer_done();
+}
+
+//PRODUCE ONLY FIRST 32BYTES OF EVERY BLOCK WITH STREAM
+void producer1(void* const bufWptr, int streamSizePower) {
+
+	ULONG_PTR i = 0;
+	__m256i X = _mm256_set1_epi32(1);
+
+	while (i < 1ULL << streamSizePower >> 21) {
+		_mm256_stream_si256((__m256i*)((ULONG_PTR)bufWptr + (i << 21)), X);
+		i++;
+	}
+	Vortex::producer_done();
+}
+
+//PRODUCE ENTIRE BUFFER WITH STORE
 void producer2(void* const bufWptr, int streamSizePower) {
 	
 	ULONG_PTR i =0;
 	__m256i X = _mm256_set1_epi32(1);
-	//std::cout << (1ULL << streamSizePower >> 5 << 21);
+	
 	while (i < 1ULL << streamSizePower  >> 5) {
-		//std::cout << i << "\n";
 		_mm256_store_si256((__m256i*)((ULONG_PTR)bufWptr + (i  << 5)), X);
 		i++;
 	}
 	Vortex::producer_done();
 }
+
+//PRODUCE ENTIRE BUFFER WITH STREAM
 void producer3(void* const bufWptr, int streamSizePower) {
 
 	ULONG_PTR i = 0;
@@ -52,7 +61,22 @@ void producer3(void* const bufWptr, int streamSizePower) {
 	Vortex::producer_done();
 }
 
+//CONSUME FIRST 32BYTES OF EACH BLOCK WITH LOAD
+void consumer0(void* const bufRptr, int streamSizePower) {
+	ULONG_PTR i = 0;
+	__m256i sum = _mm256_set1_epi32(0);
 
+	while (i < 1ULL << streamSizePower >> 21) {
+
+		auto x = _mm256_load_si256((__m256i*)((ULONG_PTR)bufRptr + (i <<21)));
+		sum = _mm256_add_epi32(sum, x);
+		i++;
+	}
+
+
+}
+
+//CONSUME ENTIRE BUFFER WITH LOAD
 void consumer1(void* const bufRptr, int streamSizePower) {
 	ULONG_PTR i = 0;
 	__m256i sum = _mm256_set1_epi32(0);
@@ -60,44 +84,17 @@ void consumer1(void* const bufRptr, int streamSizePower) {
 	while (i < 1ULL << streamSizePower >> 5) {
 		
 		auto x = _mm256_load_si256((__m256i*)((ULONG_PTR)bufRptr + (i << 5)));
-		//std::cout << "The first int at: " << i << " is : " << x.m256i_i32[0]  << "\n"<< x.m256i_i32[1] << "\n" << x.m256i_i32[2] << "\n" << x.m256i_i32[7] << "\n" << x.m256i_i32[6] << "\n";
 		sum = _mm256_add_epi32(sum, x);
 		i++;
 	}
-	//std::cout << "done";
+	
 
 } 
 
+
+
 int main() {
-	bool test = false;
-	if (test) {
-		void* ptr = _aligned_malloc(1ULL << 30, 64);
-		memset(ptr, 0, 1ULL << 30);
-		
-		while (true) {
-			ULONG_PTR i = 0;
-			__m256i X = _mm256_set1_epi32(1);
-			auto startTime = std::chrono::steady_clock::now();
-			while (i < 1ULL << 30 >> 5 >> 21) {
-				_mm256_store_si256((__m256i*)((ULONG_PTR)ptr + (i << 5 << 21)), X);
-				i++;
-			}
-			auto endTime = std::chrono::steady_clock::now();
-			std::cout <<"STORE " << 1.0 / ((double)((endTime - startTime).count()) / std::pow(10, 9)) << "\n";
-			
-			i = 0;
-			X = _mm256_set1_epi32(1);
-			startTime = std::chrono::steady_clock::now();
-			while (i < 1ULL << 30 >> 5) {
-				_mm256_stream_si256((__m256i*)((ULONG_PTR)ptr + (i << 5)), X);
-				i++;
-			}
-			endTime = std::chrono::steady_clock::now();
-			std::cout << "STREAM " << 1.0 / ((double)((endTime - startTime).count()) / std::pow(10, 9)) << "\n";
-		}
-	
-	}
-	else {
+	 
 		ULONGLONG STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER;
 		unsigned int L, M, N;
 
@@ -106,28 +103,30 @@ int main() {
 
 
 		
-		Vortex v6(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer2, &consumer1);
-		Vortex v7(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer3, &consumer1);
+		Vortex v0(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer1, &consumer1);
+		Vortex v1(STREAM_SIZE_POWER, BLOCK_SIZE_PAGE_POWER, L, M, N, &producer3, &consumer1);
+		
 
 
-		std::vector<Vortex* > vortexes = { &v6, &v7 };
+
+		std::vector<Vortex* > vortexes = { &v0, &v1 };
 
 		std::ofstream times("Times.txt", std::ios_base::app);
 		std::ofstream benchmark("Benchmark.txt", std::ios_base::app);
 		times << "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n";
 		benchmark << "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n";
 
-		std::string runDesc;
+		/*std::string runDesc;
 		std::getline(std::cin, runDesc);
 		times << runDesc << "\n";
-		benchmark << runDesc << "\n";
+		benchmark << runDesc << "\n";*/
 
 		std::vector<std::string> descriptions =
 		{
 
 			
-			"_mm256_storeu_si256 loop producer, _mm256_add_epi32 loop sum consumer",
-			"_mm256_stream_si256 loop producer, _mm256_add_epi32 loop sum consumer"
+			"1",
+			"2"
 
 
 
@@ -136,6 +135,7 @@ int main() {
 		size_t numTests = 5;
 		ULONGLONG totalTime = 0;
 		ULONGLONG totalNumTests = vortexes.size() * numTests;
+
 
 		for (size_t i = 0; i < vortexes.size(); i++) {
 
@@ -190,7 +190,44 @@ int main() {
 
 
 
-	}
+	
 
 
 }
+
+/*bool test = false;
+	if (test) {
+		void* ptr = _aligned_malloc(1ULL << 30, 64);
+		memset(ptr, 0, 1ULL << 30);
+		
+		while (true) {
+			ULONG_PTR i = 0;
+			__m256i X = _mm256_set1_epi32(1);
+			auto startTime = std::chrono::steady_clock::now();
+			while (i < 1ULL << 30 >> 5 >> 21) {
+				_mm256_store_si256((__m256i*)((ULONG_PTR)ptr + (i << 5 << 21)), X);
+				i++;
+			}
+			auto endTime = std::chrono::steady_clock::now();
+			std::cout <<"STORE " << 1.0 / ((double)((endTime - startTime).count()) / std::pow(10, 9)) << "\n";
+			
+			i = 0;
+			X = _mm256_set1_epi32(1);
+			startTime = std::chrono::steady_clock::now();
+			while (i < 1ULL << 30 >> 5) {
+				_mm256_stream_si256((__m256i*)((ULONG_PTR)ptr + (i << 5)), X);
+				i++;
+			}
+			endTime = std::chrono::steady_clock::now();
+			std::cout << "STREAM " << 1.0 / ((double)((endTime - startTime).count()) / std::pow(10, 9)) << "\n";
+		}
+	
+	}*/
+/*void producer1(void* const bufWptr, int streamSizePower) {
+	ULONG_PTR i = 0;
+	while (i < 1ULL << streamSizePower >> 21) {
+		memset((void*)((ULONG_PTR)bufWptr + (i << 21)), 55, 1ULL << 21);
+		i++;
+	}Vortex::producer_done();
+}
+*/
