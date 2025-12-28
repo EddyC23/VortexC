@@ -30,32 +30,27 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 			//std::cout << "wf" << offsetBlock;
 			if (offsetBlock == 0) {
 				for (unsigned int i = 0; i < N + L + M + 1; i++) {
-
 					offsetToPFN[i] = arrayPFN + i * blockSizePages;
-
 				}
 			}
 
 			if (offsetBlock >= M + N + L + 1) {
 				releaseSemaphore(fullSemaphore);
 				acquireSemaphore(emptySemaphore);
-
 				offsetToPFN[offsetBlock] = offsetToPFN[lastConsUnmap];
 				offsetToPFN.erase(lastConsUnmap);
-
-				MapUserPhysicalPages(bufR + lastConsUnmap * blockSizeBytes, blockSizePages, NULL);
-				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
-
+				unmapBlock(bufR + lastConsUnmap * blockSizeBytes);
+				mapBlock(bufW + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);
 				lastConsUnmap++;
 			}
 			else if (offsetBlock >= L + 1) {
 				releaseSemaphore(fullSemaphore);
 				acquireSemaphore(emptySemaphore);
-				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
+				mapBlock(bufW + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);
 			}
 			else {
 				acquireSemaphore(emptySemaphore);
-				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
+				mapBlock(bufW + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);
 			}
 
 	}
@@ -69,8 +64,8 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 				releaseSemaphore(emptySemaphore);
 			}
 			acquireSemaphore(fullSemaphore);
-			MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, NULL);
-			MapUserPhysicalPages(bufR + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
+			unmapBlock(bufW + offsetBlock * blockSizeBytes);
+			mapBlock(bufR + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);
 		
 	}
 	
@@ -141,27 +136,7 @@ void* Vortex::getRBuf()
 
 
 
-void Vortex::reset() {
-	
-	//lastConsUnmap = 0;
-	//
-	//MapUserPhysicalPages(bufW + streamSizeBytes - (N + L + M + 1) * blockSizeBytes), blockSizePages * (N + L + M + 1), NULL); // added for testing remove when done
-	//MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + streamSizeBytes - (N + L + M + 1) * blockSizeBytes), blockSizePages * (N + L + M + 1), NULL);
 
-	//while(full.try_acquire()){}
-	//while(empty.try_acquire()){}
-	//for (unsigned int i = 0; i < N + L; i++) {
-
-	//	empty.release();
-
-	//}
-	//offsetToPFN.clear();
-	//for (unsigned int i = 0; i < N + L + M + 1; i++) {
-
-	//	offsetToPFN[i] = &arrayPFN[i * blockSizePages];
-
-	//}
-}
 
 void Vortex::producer_done() {
 	
@@ -183,6 +158,23 @@ void Vortex::releaseSemaphore(HANDLE semaphore) {
 	LPLONG lpPreviousCount = 0;
 	if (!ReleaseSemaphore(semaphore, 1, lpPreviousCount)) {
 		std::cout << "release semaphore failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+}
+
+void Vortex::unmapBlock(void* ptr)
+{
+	if (!MapUserPhysicalPages(ptr, blockSizePages, NULL)) {
+		std::cout << "unmap block failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+}
+void Vortex::mapBlock(void* ptr, PULONG_PTR pageArray)
+{
+	if (!MapUserPhysicalPages(ptr, blockSizePages, pageArray)) {
+		std::cout << "map block failed";
 		std::cout << GetLastError();
 		exit(-1);
 	}

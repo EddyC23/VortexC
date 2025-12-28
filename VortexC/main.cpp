@@ -8,6 +8,7 @@
 #include <fstream>
 
 
+//around 7-8GB as of right now
 
 void produceFirst32Bytes(void* const bufWptr, uint64_t streamSizePower) {
 
@@ -85,10 +86,9 @@ int main() {
 	L = 1, M = 0, N = 2;
 	
 	Vortex v(streamSizePower, blockSizePower, L, M, N);
-	std::cout << v.GetLastErrorAsString();
 	void* bufW = v.getWBuf();
 	void* bufR = v.getRBuf();
-
+	
 	auto start = std::chrono::steady_clock::now();
 	std::thread produce(produceEntireBuffer, bufW, streamSizePower);
 	std::thread consume(consumeEntireBuffer, bufR, streamSizePower);
@@ -96,6 +96,7 @@ int main() {
 	Vortex::producer_done();
 	consume.join();
 	auto end = std::chrono::steady_clock::now();
+
 	std::cout << 1.0/((end - start).count() / pow(10, 9)) << "GB/s";
 
 	

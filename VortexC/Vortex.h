@@ -14,7 +14,6 @@ public:
 	~Vortex();
 	void* getWBuf();
 	void* getRBuf();
-	void reset();
 	static void producer_done();
 
 private:
@@ -41,8 +40,8 @@ private:
 	PULONG_PTR arrayPFN;
 	std::map <ULONG_PTR, PULONG_PTR> offsetToPFN;
 	uint64_t lastConsUnmap = 0;
-	
-	
+	void unmapBlock(void* ptr);
+	void mapBlock(void* ptr, PULONG_PTR pageArray);
 
 	
 
