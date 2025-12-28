@@ -55,10 +55,6 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 			}
 			else {
 				acquireSemaphore(emptySemaphore);
-				/*std::cout<<"asd" <<MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
-				std::cout << GetLastErrorAsString();
-				std::cout << GetLastError();
-				*///int a;
 				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
 			}
 
@@ -77,7 +73,7 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 			MapUserPhysicalPages(bufR + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
 		
 	}
-
+	
 	return EXCEPTION_CONTINUE_EXECUTION;
 }
 Vortex::Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L, unsigned int M, unsigned  int N)

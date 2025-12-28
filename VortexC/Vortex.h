@@ -8,7 +8,8 @@ class Vortex {
 public:
 
 
-
+	BOOL EnableLockPriveleges(); // ai generated
+	std::string GetLastErrorAsString(); // ai generated
 	Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L, unsigned int M, unsigned int N);
 	~Vortex();
 	void* getWBuf();
@@ -41,8 +42,7 @@ private:
 	std::map <ULONG_PTR, PULONG_PTR> offsetToPFN;
 	uint64_t lastConsUnmap = 0;
 	
-	BOOL EnableLockPriveleges(); // ai generated
-	std::string GetLastErrorAsString(); // ai generated
+	
 
 	
 
