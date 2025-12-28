@@ -16,170 +16,181 @@ LONG WINAPI Vortex::handler(PEXCEPTION_POINTERS info) {
 
 LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	
-
+	char* bufW = (char*)bufWptr;
+	char* bufR = (char*)bufRptr;
 
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
 	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
-	bool readWriteTest = false; //SET THIS TO TRUE FOR TESTING ONLY EITHER THE PRODUCER OR CONSUMER
+	
 	if (isWriteFault) {
-		if (readWriteTest) {
+			
+
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
-			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-			
-			
+			ULONGLONG offsetBlock = offset >> blockSizePower;
+			//std::cout << "wf" << offsetBlock;
+			if (offsetBlock == 0) {
+				for (unsigned int i = 0; i < N + L + M + 1; i++) {
+
+					offsetToPFN[i] = arrayPFN + i * blockSizePages;
+
+				}
+			}
+
 			if (offsetBlock >= M + N + L + 1) {
-				
-				
+				releaseSemaphore(fullSemaphore);
+				acquireSemaphore(emptySemaphore);
 
 				offsetToPFN[offsetBlock] = offsetToPFN[lastConsUnmap];
 				offsetToPFN.erase(lastConsUnmap);
 
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + lastConsUnmap * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, NULL);
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
+				MapUserPhysicalPages(bufR + lastConsUnmap * blockSizeBytes, blockSizePages, NULL);
+				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
 
 				lastConsUnmap++;
 			}
 			else if (offsetBlock >= L + 1) {
-				
-				
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
+				releaseSemaphore(fullSemaphore);
+				acquireSemaphore(emptySemaphore);
+				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
 			}
 			else {
-				
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
+				acquireSemaphore(emptySemaphore);
+				/*std::cout<<"asd" <<MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
+				std::cout << GetLastErrorAsString();
+				std::cout << GetLastError();
+				*///int a;
+				MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
 			}
-		}
-		else {
-			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
-			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
 
-			if (offsetBlock >= M + N + L + 1) {
-				full.release();
-				empty.acquire();
-
-				offsetToPFN[offsetBlock] = offsetToPFN[lastConsUnmap];
-				offsetToPFN.erase(lastConsUnmap);
-
-				MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + lastConsUnmap * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, NULL);
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-
-				lastConsUnmap++;
-			}
-			else if (offsetBlock >= L + 1) {
-				full.release();
-				empty.acquire();
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-			}
-			else {
-				empty.acquire();
-				MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-			}
-		}
 	}
 	else {
-		if(readWriteTest){
+		
+		
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
-			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-			
-			if (offsetBlock >= L + M + N + 1) {
-				offsetToPFN[offsetBlock] = offsetToPFN[offsetBlock - (L + M + N + 1)];
-				offsetToPFN.erase(offsetBlock - (L + M + N + 1));
-				MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + (offsetBlock - (L + M + N + 1)) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, NULL);
-				
-				MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-			}
-			else {
-				
-				MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-			}
-		}
-		else {
-			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
-			ULONGLONG offsetBlock = offset >> (BLOCK_SIZE_PAGE_POWER + PAGE_POWER);
-			
+			ULONGLONG offsetBlock = offset >> blockSizePower;
+			//std::cout << "rf" << offsetBlock;
 			if (offsetBlock >= M + 1) {
-				empty.release();
+				releaseSemaphore(emptySemaphore);
 			}
-			full.acquire();
-			MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, NULL);
-			MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + offsetBlock * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES, offsetToPFN[offsetBlock]);
-		}
+			acquireSemaphore(fullSemaphore);
+			MapUserPhysicalPages(bufW + offsetBlock * blockSizeBytes, blockSizePages, NULL);
+			MapUserPhysicalPages(bufR + offsetBlock * blockSizeBytes, blockSizePages, offsetToPFN[offsetBlock]);
+		
 	}
 
 	return EXCEPTION_CONTINUE_EXECUTION;
 }
-Vortex::Vortex(ULONGLONG STREAM_SIZE_POWER, ULONGLONG BLOCK_SIZE_PAGE_POWER, unsigned int L, unsigned int M, unsigned  int N, void (*producer)(void* const, int), void (*consumer)(void* const, int)) :
-	STREAM_SIZE_POWER{ STREAM_SIZE_POWER }, STREAM_SIZE_BYTES{ 1ULL << STREAM_SIZE_POWER }, STREAM_SIZE_GB{double(STREAM_SIZE_BYTES) / std::pow(2, 30)},
-	PAGE_POWER{12}, BLOCK_SIZE_PAGE_POWER{ BLOCK_SIZE_PAGE_POWER }, BLOCK_NUM_PAGES{ 1ULL << BLOCK_SIZE_PAGE_POWER }, BLOCK_SIZE_BYTES{ BLOCK_NUM_PAGES << PAGE_POWER }, PFNarray{ new ULONG_PTR[BLOCK_NUM_PAGES * (N + L + M + 1)]},
-	L{ L }, M{ M }, N{ N },
-	producer{ producer }, consumer{ consumer },
-	full{ 0 }, empty{  N + L  },
-	bufWptr{ VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE) }, bufRptr{ VirtualAlloc(NULL, STREAM_SIZE_BYTES, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE) }
-
-
+Vortex::Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L, unsigned int M, unsigned  int N)
 {
-	
+
 	EnableLockPriveleges();
 	AddVectoredExceptionHandler(1, handler);
-
-	
 	instance = this;
-	ULONGLONG numPages = BLOCK_NUM_PAGES * (N + L + M + 1);
-	AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, PFNarray);
-	for (unsigned int i = 0; i < N + L + M  +  1;i++) {
-		
-		offsetToPFN[i] = &PFNarray[i * BLOCK_NUM_PAGES];
-		
+
+	this->streamSizePower = streamSizePower;
+	this->streamSizeBytes = 1ULL << streamSizePower;
+	this->blockSizePower = blockSizePower;
+	this->blockSizePages = 1ULL << (blockSizePower - 12);
+	this->blockSizeBytes = 1ULL << blockSizePower;
+	this->L = L;
+	this->M = M;
+	this->N = N;
+	this->fullSemaphore = CreateSemaphore(NULL, 0, N + L, NULL);
+	this->emptySemaphore = CreateSemaphore(NULL, N+L, N + L, NULL);
+	this->bufWptr = VirtualAlloc(NULL, streamSizeBytes, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
+	this->bufRptr = VirtualAlloc(NULL, streamSizeBytes, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
+	
+	if (blockSizePower < 12) {
+		std::cout << "block size power has to be at least 12";
+		exit(-1);
 	}
+
+	ULONGLONG numPages = (blockSizePages) * (N + L + M + 1);
+	arrayPFN = new ULONG_PTR[numPages];
+	if (!AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, arrayPFN)) {
+		std::cout << "allocate user physical pages failed\n";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	if (numPages != (blockSizePages) * (N + L + M + 1)) {
+		std::cout << "allocate user physical pages allocated incorrect number of pages";
+		exit(-1);
+	}
+	
+	if (bufWptr == NULL || bufRptr == NULL) {
+		std::cout << "virtual alloc failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	if (fullSemaphore == NULL || emptySemaphore == NULL) {
+		std::cout << "creating semaphores failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	
 	
 }
 Vortex::~Vortex() {
-	delete[] PFNarray;
+	delete[] arrayPFN;
 }
 
-void Vortex::start() {
-	instance = this;  
-	//IF TESTING ONLY ONE OF THEM COMMENT OUT std::thread produce(producer, bufWptr, STREAM_SIZE_POWER); produce.join(); or std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER); consume.join();
-	std::thread produce(producer, bufWptr, STREAM_SIZE_POWER);
-	std::thread consume(consumer, bufRptr, STREAM_SIZE_POWER);
-	produce.join();
-	consume.join();
-	
+void* Vortex::getWBuf()
+{
+	return bufWptr;
 }
+void* Vortex::getRBuf()
+{
+	return bufRptr;
+}
+
+
 
 void Vortex::reset() {
 	
-	lastConsUnmap = 0;
-	
-	MapUserPhysicalPages((void*)((ULONGLONG)bufWptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL); // added for testing remove when done
-	MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + STREAM_SIZE_BYTES - (N + L + M + 1) * BLOCK_SIZE_BYTES), BLOCK_NUM_PAGES * (N + L + M + 1), NULL);
+	//lastConsUnmap = 0;
+	//
+	//MapUserPhysicalPages(bufW + streamSizeBytes - (N + L + M + 1) * blockSizeBytes), blockSizePages * (N + L + M + 1), NULL); // added for testing remove when done
+	//MapUserPhysicalPages((void*)((ULONGLONG)bufRptr + streamSizeBytes - (N + L + M + 1) * blockSizeBytes), blockSizePages * (N + L + M + 1), NULL);
 
-	while(full.try_acquire()){}
-	while(empty.try_acquire()){}
-	for (unsigned int i = 0; i < N + L; i++) {
+	//while(full.try_acquire()){}
+	//while(empty.try_acquire()){}
+	//for (unsigned int i = 0; i < N + L; i++) {
 
-		empty.release();
+	//	empty.release();
 
-	}
-	offsetToPFN.clear();
-	for (unsigned int i = 0; i < N + L + M + 1; i++) {
+	//}
+	//offsetToPFN.clear();
+	//for (unsigned int i = 0; i < N + L + M + 1; i++) {
 
-		offsetToPFN[i] = &PFNarray[i * BLOCK_NUM_PAGES];
+	//	offsetToPFN[i] = &arrayPFN[i * blockSizePages];
 
-	}
+	//}
 }
 
 void Vortex::producer_done() {
 	
-	for (unsigned int i = 0; i <instance->N + instance->L + 5; i++) {
-		instance->full.release();
+	for (unsigned int i = 0; i <instance->N + instance->L; i++) {
+		instance->releaseSemaphore(instance->fullSemaphore);
 	}
 		
 }
-double Vortex::getStreamSizeGB() {
-	return STREAM_SIZE_GB;
-}
 
+
+void Vortex::acquireSemaphore(HANDLE semaphore) {
+	if (WaitForSingleObject(semaphore, INFINITE) == WAIT_FAILED) {
+		std::cout << "aqcuire semaphore failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+}
+void Vortex::releaseSemaphore(HANDLE semaphore) {
+	LPLONG lpPreviousCount = 0;
+	if (!ReleaseSemaphore(semaphore, 1, lpPreviousCount)) {
+		std::cout << "release semaphore failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+}
 
 
 BOOL Vortex::EnableLockPriveleges() {
