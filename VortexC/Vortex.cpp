@@ -6,28 +6,23 @@
 #include <map>
 #include <string>
 #include <chrono>
-Vortex * Vortex::instance = nullptr;
 
+Vortex * Vortex::instance = nullptr;
 
 LONG WINAPI Vortex::handler(PEXCEPTION_POINTERS info) {
 	return instance->handle_exception(info);
-	
 }
 
 LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
-	
 	char* bufW = (char*)bufWptr;
 	char* bufR = (char*)bufRptr;
-
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
 	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
 	
 	if (isWriteFault) {
-			
-
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
 			ULONGLONG offsetBlock = offset >> blockSizePower;
-			//std::cout << "wf" << offsetBlock;
+			std::cout << "WB:" << offsetBlock << "\n";
 			if (offsetBlock == 0) {
 				for (unsigned int i = 0; i < N + L + M + 1; i++) {
 					offsetToPFN[i] = arrayPFN + i * blockSizePages;
@@ -55,29 +50,36 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 
 	}
 	else {
-		
-		
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
 			ULONGLONG offsetBlock = offset >> blockSizePower;
-			//std::cout << "rf" << offsetBlock;
+			if (offsetBlock >= 511) {
+				std::cout << " Jere" << offsetBlock << " " << offset << "\n";
+			}
+			else {
+				std::cout << "RB:" << offsetBlock << "\n";
+			}
 			if (offsetBlock >= M + 1) {
 				releaseSemaphore(emptySemaphore);
 			}
+
 			acquireSemaphore(fullSemaphore);
 			unmapBlock(bufW + offsetBlock * blockSizeBytes);
-			mapBlock(bufR + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);
-		
-	}
-	
+			mapBlock(bufR + offsetBlock * blockSizeBytes, offsetToPFN[offsetBlock]);	
+	}	
 	return EXCEPTION_CONTINUE_EXECUTION;
 }
+
 Vortex::Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L, unsigned int M, unsigned  int N)
 {
-
 	EnableLockPriveleges();
-	AddVectoredExceptionHandler(1, handler);
-	instance = this;
 
+	if (AddVectoredExceptionHandler(1, handler) == NULL) {
+		std::cout << "add vectored exception handler failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+
+	instance = this;
 	this->streamSizePower = streamSizePower;
 	this->streamSizeBytes = 1ULL << streamSizePower;
 	this->blockSizePower = blockSizePower;
@@ -90,14 +92,13 @@ Vortex::Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L
 	this->emptySemaphore = CreateSemaphore(NULL, N+L, N + L, NULL);
 	this->bufWptr = VirtualAlloc(NULL, streamSizeBytes, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
 	this->bufRptr = VirtualAlloc(NULL, streamSizeBytes, MEM_RESERVE | MEM_PHYSICAL, PAGE_READWRITE);
-	
+
+	ULONGLONG numPages = (blockSizePages) * (N + L + M + 1);
+	arrayPFN = new ULONG_PTR[numPages];
 	if (blockSizePower < 12) {
 		std::cout << "block size power has to be at least 12";
 		exit(-1);
 	}
-
-	ULONGLONG numPages = (blockSizePages) * (N + L + M + 1);
-	arrayPFN = new ULONG_PTR[numPages];
 	if (!AllocateUserPhysicalPages(GetCurrentProcess(), &numPages, arrayPFN)) {
 		std::cout << "allocate user physical pages failed\n";
 		std::cout << GetLastError();
@@ -118,9 +119,8 @@ Vortex::Vortex(uint64_t streamSizePower, uint64_t blockSizePower, unsigned int L
 		std::cout << GetLastError();
 		exit(-1);
 	}
-	
-	
 }
+
 Vortex::~Vortex() {
 	delete[] arrayPFN;
 }
@@ -129,14 +129,11 @@ void* Vortex::getWBuf()
 {
 	return bufWptr;
 }
+
 void* Vortex::getRBuf()
 {
 	return bufRptr;
 }
-
-
-
-
 
 void Vortex::producer_done() {
 	
@@ -146,7 +143,6 @@ void Vortex::producer_done() {
 		
 }
 
-
 void Vortex::acquireSemaphore(HANDLE semaphore) {
 	if (WaitForSingleObject(semaphore, INFINITE) == WAIT_FAILED) {
 		std::cout << "aqcuire semaphore failed";
@@ -154,6 +150,7 @@ void Vortex::acquireSemaphore(HANDLE semaphore) {
 		exit(-1);
 	}
 }
+
 void Vortex::releaseSemaphore(HANDLE semaphore) {
 	LPLONG lpPreviousCount = 0;
 	if (!ReleaseSemaphore(semaphore, 1, lpPreviousCount)) {
@@ -171,6 +168,7 @@ void Vortex::unmapBlock(void* ptr)
 		exit(-1);
 	}
 }
+
 void Vortex::mapBlock(void* ptr, PULONG_PTR pageArray)
 {
 	if (!MapUserPhysicalPages(ptr, blockSizePages, pageArray)) {
@@ -179,7 +177,6 @@ void Vortex::mapBlock(void* ptr, PULONG_PTR pageArray)
 		exit(-1);
 	}
 }
-
 
 BOOL Vortex::EnableLockPriveleges() {
 	//sets enable lock privileges
@@ -222,6 +219,7 @@ BOOL Vortex::EnableLockPriveleges() {
 	CloseHandle(hToken);
 	return TRUE;
 }
+
 std::string Vortex :: GetLastErrorAsString()
 {
 	//Get the error message ID, if any.
