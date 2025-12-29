@@ -11,7 +11,8 @@ public:
 	~Vortex();
 	void* getWBuf();
 	void* getRBuf();
-	static void producer_done();
+	void producer_done();
+	void reset();
 private:
 	static Vortex* instance;
 	static LONG WINAPI handler(PEXCEPTION_POINTERS info);

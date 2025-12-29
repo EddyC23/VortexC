@@ -3,7 +3,6 @@
 #include <iostream>
 #include <thread>
 #include <semaphore>
-#include <map>
 #include <string>
 #include <chrono>
 
@@ -18,11 +17,14 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	char* bufR = (char*)bufRptr;
 	bool isWriteFault = info->ExceptionRecord->ExceptionInformation[0];
 	ULONG_PTR fptr = info->ExceptionRecord->ExceptionInformation[1];
-	
+	if (info->ExceptionRecord->ExceptionCode != EXCEPTION_ACCESS_VIOLATION) {
+		std::cout << "Not a access violation...\n";
+		return EXCEPTION_CONTINUE_SEARCH;
+	}
 	if (isWriteFault) {
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufWptr;
 			ULONGLONG offsetBlock = offset >> blockSizePower;
-			std::cout << "WB:" << offsetBlock << "\n";
+			
 			if (offsetBlock == 0) {
 				for (unsigned int i = 0; i < N + L + M + 1; i++) {
 					offsetToPFN[i] = arrayPFN + i * blockSizePages;
@@ -52,12 +54,7 @@ LONG Vortex::handle_exception(PEXCEPTION_POINTERS info) {
 	else {
 			ULONG_PTR offset = fptr - (ULONG_PTR)bufRptr;
 			ULONGLONG offsetBlock = offset >> blockSizePower;
-			if (offsetBlock >= 511) {
-				std::cout << " Jere" << offsetBlock << " " << offset << "\n";
-			}
-			else {
-				std::cout << "RB:" << offsetBlock << "\n";
-			}
+			
 			if (offsetBlock >= M + 1) {
 				releaseSemaphore(emptySemaphore);
 			}
@@ -138,9 +135,36 @@ void* Vortex::getRBuf()
 void Vortex::producer_done() {
 	
 	for (unsigned int i = 0; i <instance->N + instance->L; i++) {
-		instance->releaseSemaphore(instance->fullSemaphore);
+		releaseSemaphore(instance->fullSemaphore);
 	}
 		
+}
+
+void Vortex::reset() {
+	lastConsUnmap = 0;
+	char* bufW = (char*)bufWptr;
+	char* bufR = (char * )bufRptr;
+	if (!MapUserPhysicalPages(bufW + streamSizeBytes - (N + L + M + 1) * blockSizeBytes, blockSizePages * (N + L + M + 1), NULL)) {
+		std::cout << "unmap bufW failed in reset";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	if (!MapUserPhysicalPages(bufR + streamSizeBytes - (N + L + M + 1) * blockSizeBytes, blockSizePages * (N + L + M + 1), NULL)) {
+		std::cout << "unmap bufR failed in reset";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	fullSemaphore = CreateSemaphore(NULL, 0, N + L, NULL);
+	emptySemaphore = CreateSemaphore(NULL, N + L, N + L, NULL);
+	if (fullSemaphore == NULL || emptySemaphore == NULL) {
+		std::cout << "creating semaphores failed";
+		std::cout << GetLastError();
+		exit(-1);
+	}
+	offsetToPFN.clear();
+	
+
+	
 }
 
 void Vortex::acquireSemaphore(HANDLE semaphore) {
