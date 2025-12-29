@@ -18,7 +18,7 @@ DWORD WINAPI produceFirst32Bytes(LPVOID parameters) {
 	uint64_t lenBlocks = 1ULL << streamSizePower >> 21;
 	uint64_t AVXperBlock = 1ULL << 21 >> 5;
 	__m256i x = _mm256_set1_epi32(1);
-
+	
 	for (uint64_t i = 0; i < lenBlocks; i++) {
 		__m256i* p = (__m256i*)bufWptr;
 		_mm256_store_si256(p + i * AVXperBlock, x);
@@ -31,6 +31,7 @@ DWORD WINAPI produceEntireBuffer(LPVOID parameters) {
 	uint64_t streamSizePower = ((StreamData*)parameters)->streamSizePower;
 	uint64_t lenAVX = 1ULL << streamSizePower >> 5;
 	__m256i x = _mm256_set1_epi32(1);
+	auto ref = std::chrono::steady_clock::now();
 
 	for (uint64_t i = 0; i < lenAVX; i++) {
 		__m256i* p = (__m256i*)bufWptr;
@@ -112,6 +113,8 @@ int main() {
 		clock_t begin = clock();
 		HANDLE produce = createThread(produceEntireBuffer, produceParam);
 		HANDLE consume = createThread(consumeEntireBuffer, consumeParam);
+		/*HANDLE produce = createThread(produceFirst32Bytes, produceParam);
+		HANDLE consume = createThread(consumeFirst32Bytes, consumeParam);*/
 		waitForThread(produce);
 		v.producer_done();
 		waitForThread(consume);
